@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestApp", "TestApp\TestApp.vcxproj", "{3DD2CDB0-58B0-44E6-8CD6-E3B2E45F6756}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectInputEngine", "DirectInputEngine\DirectInputEngine.vcxproj", "{902C186A-9BE6-4AD7-81BE-3C79577FEB46}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectX11GraphicsEngine", "DirectX11GraphicsEngine\DirectX11GraphicsEngine.vcxproj", "{3BDC86AC-FADD-4759-9D2B-3040595758B3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectSoundEngine", "DirectSoundEngine\DirectSoundEngine.vcxproj", "{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{3BDC86AC-FADD-4759-9D2B-3040595758B3}.Release|x64.Build.0 = Release|x64
 		{3BDC86AC-FADD-4759-9D2B-3040595758B3}.Release|x86.ActiveCfg = Release|Win32
 		{3BDC86AC-FADD-4759-9D2B-3040595758B3}.Release|x86.Build.0 = Release|Win32
+		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Debug|x64.ActiveCfg = Debug|x64
+		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Debug|x64.Build.0 = Debug|x64
+		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Debug|x86.ActiveCfg = Debug|Win32
+		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Debug|x86.Build.0 = Debug|Win32
+		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Release|x64.ActiveCfg = Release|x64
+		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Release|x64.Build.0 = Release|x64
+		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Release|x86.ActiveCfg = Release|Win32
+		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

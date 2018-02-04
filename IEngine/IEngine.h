@@ -9,6 +9,7 @@
 class IOperatingSystemEngine;
 class IInputEngine;
 class IGraphicsEngine;
+class ISoundEngine;
 class IWindow;
 
 static class IEngine
@@ -17,4 +18,5 @@ public:
   static IENGINE_API IOperatingSystemEngine * CreateOperatingSystemEngine();
   static IENGINE_API IInputEngine * CreateInputEngine(const IWindow*);
   static IENGINE_API IGraphicsEngine * CreateGraphicsEngine(IWindow*);
+  static IENGINE_API ISoundEngine * CreateSoundEngine(IWindow*);
 };

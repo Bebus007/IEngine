@@ -13,18 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="OS">
-      <UniqueIdentifier>{e0b03e9c-39ef-4ecf-ad1f-090e72a91e06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{101e09b1-6cbc-4df0-9b0a-a153e90b97a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{649ab69a-6508-4cc4-9b97-434dabd177ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{bb13824b-926d-4df9-958c-69723121e045}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -33,45 +21,21 @@
     <ClInclude Include="targetver.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="IEngine.h">
+    <ClInclude Include="DirectSoundEngine.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="IOperatingSystemEngine.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IWindow.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IWindowEx.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IInputEngine.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="IKeyboard.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="IMouse.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphicsEngine.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="ISoundEngine.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="ISound.h">
-      <Filter>Sound</Filter>
+    <ClInclude Include="DirectSoundSound.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="IEngine.cpp">
+    <ClCompile Include="DirectSoundEngine.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="DirectSoundSound.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
