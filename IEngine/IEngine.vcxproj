@@ -174,6 +174,9 @@
     <ProjectReference Include="..\DirectInputEngine\DirectInputEngine.vcxproj">
       <Project>{902c186a-9be6-4ad7-81be-3c79577feb46}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\DirectSoundEngine\DirectSoundEngine.vcxproj">
+      <Project>{362e422d-ac25-4e2c-883e-1ba5b15a5b9c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\DirectX11GraphicsEngine\DirectX11GraphicsEngine.vcxproj">
       <Project>{3bdc86ac-fadd-4759-9d2b-3040595758b3}</Project>
     </ProjectReference>

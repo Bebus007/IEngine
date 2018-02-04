@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "DirectSoundSound.h"
 
+#include <Windows.h>
+#include <mmsystem.h>
 #include <dsound.h>
 
 DirectSoundSound::DirectSoundSound(IDirectSoundBuffer8 * pBuffer) : m_pBuffer(pBuffer)

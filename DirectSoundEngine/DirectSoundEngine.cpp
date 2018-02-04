@@ -3,6 +3,8 @@
 
 #include "IWindowEx.h"
 
+#include <Windows.h>
+#include <mmsystem.h>
 #include <dsound.h>
 
 CDirectSoundEngine::CDirectSoundEngine(const IWindowEx * pWnd) : m_pInterface(nullptr)
