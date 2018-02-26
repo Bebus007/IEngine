@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="IEngine.h" />
+    <ClInclude Include="IFile.h" />
     <ClInclude Include="IGraphicsEngine.h" />
     <ClInclude Include="IInputEngine.h" />
     <ClInclude Include="IKeyboard.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="IOperatingSystemEngine.h" />
     <ClInclude Include="ISound.h" />
     <ClInclude Include="ISoundEngine.h" />
+    <ClInclude Include="IWAVFile.h" />
     <ClInclude Include="IWindow.h" />
     <ClInclude Include="IWindowEx.h" />
     <ClInclude Include="stdafx.h" />

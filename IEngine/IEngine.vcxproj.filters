@@ -63,6 +63,12 @@
     <ClInclude Include="ISound.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="IFile.h">
+      <Filter>OS</Filter>
+    </ClInclude>
+    <ClInclude Include="IWAVFile.h">
+      <Filter>OS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

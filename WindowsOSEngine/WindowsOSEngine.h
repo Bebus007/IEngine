@@ -13,6 +13,8 @@ public:
   virtual IWindow* GetConsoleWindow() override;
   virtual IWindow* GetWindowInstance() override;
 
+  virtual IFile * OpenFile(const char * filename) override;
+
 private:
   static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 

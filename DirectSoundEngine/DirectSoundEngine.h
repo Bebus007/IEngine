@@ -11,9 +11,7 @@ public:
   CDirectSoundEngine(const IWindowEx * pWnd);
   ~CDirectSoundEngine();
 
-  virtual void Play(ISound*) override;
-
-  virtual ISound* Load(const char* filename) override;
+  virtual ISound* CreateSound(IFile*) override;
 
 private:
   IDirectSound8 * m_pInterface;

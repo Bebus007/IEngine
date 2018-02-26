@@ -3,4 +3,5 @@
 class ISound
 {
 public:
+  virtual void Play() = 0;
 };

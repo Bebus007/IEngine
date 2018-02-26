@@ -3,7 +3,13 @@
 
 #include "WindowsWindow.h"
 
+#include "File.h"
+#include "WAVFile.h"
+
 #include <tchar.h>
+#include <string>
+#include <algorithm>
+#include <cctype>
 
 IWindow* CWindowsOSEngine::m_pWindowInstance = nullptr;
 
@@ -74,4 +80,21 @@ LRESULT CWindowsOSEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
     return DefWindowProc(hWnd, message, wParam, lParam);
 
   return (dynamic_cast<CWindowsWindow*>(m_pWindowInstance))->HandleMessage(message, wParam, lParam);
+}
+
+IFile * CWindowsOSEngine::OpenFile(const char * filename)
+{
+  std::string sFilename = filename;
+  std::string sExtensionString = sFilename.substr(sFilename.rfind('.') + 1);
+
+  std::transform(sExtensionString.begin(), sExtensionString.end(), sExtensionString.begin(), ::toupper);
+
+  if (sExtensionString == "WAV")
+  {
+    return new CWAVFile(filename);
+  }
+  else
+    return new CFile(filename);
+  
+  return nullptr;
 }

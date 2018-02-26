@@ -1,11 +1,10 @@
 #pragma once
 
 class ISound;
+class IFile;
 
 class ISoundEngine
 {
 public:
-  virtual void Play(ISound*) = 0;
-
-  virtual ISound* Load(const char* filename) = 0;
+  virtual ISound* CreateSound(IFile*) = 0;
 };

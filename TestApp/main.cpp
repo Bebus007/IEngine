@@ -8,6 +8,8 @@ using namespace std;
 #include "IInputEngine.h"
 #include "IKeyboard.h"
 #include "IGraphicsEngine.h"
+#include "ISoundEngine.h"
+#include "ISound.h"
 
 void main()
 {
@@ -17,6 +19,11 @@ void main()
   pConsoleWindow->Hide();
 
   IWindow* pGameWindow = pOSEngine->GetWindowInstance();
+
+  IFile* pSoundFile = pOSEngine->OpenFile("test.wav");
+  ISoundEngine* pSoundEngine = IEngine::CreateSoundEngine(pGameWindow);
+  ISound* pSound = pSoundEngine->CreateSound(pSoundFile);
+  pSound->Play();
 
   auto pInputEngine = IEngine::CreateInputEngine(pGameWindow);
 
@@ -37,4 +44,6 @@ void main()
 
   delete pInputEngine;
   delete pOSEngine;
+  delete pSoundEngine;
+  delete pSoundFile;
 }
