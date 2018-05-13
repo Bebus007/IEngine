@@ -4,6 +4,7 @@
 #include "IWindowEx.h"
 
 #include <d3d11.h>
+#include <d3dcompiler.h>
 
 CDirextX11RenderSystem::CDirextX11RenderSystem(IWindowEx* pWnd) :
   m_pWindow(pWnd),
@@ -99,6 +100,102 @@ void CDirextX11RenderSystem::SwapBuffers()
     return;
   // Выбросить задний буфер на экран
   m_pSwapChain->Present(0, 0);
+}
+
+ID3D11PixelShader * CDirextX11RenderSystem::CompilePixelShader(const char * pShaderText, unsigned long shaderTextLength)
+{
+  if (!m_pd3dDevice)
+    return nullptr;
+
+  ID3DBlob* pPSBlob = CompileShader(pShaderText, shaderTextLength, "PS", "ps_4_0");
+  if (!pPSBlob)
+    return nullptr;
+
+  ID3D11PixelShader* g_pPixelShader = nullptr;          // Пиксельный шейдер
+  HRESULT hr = S_OK;
+
+  hr = m_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader);
+
+  if (pPSBlob)
+    pPSBlob->Release();
+
+  if (FAILED(hr) || !g_pPixelShader)
+    return nullptr;
+
+  return g_pPixelShader;
+}
+
+ID3DBlob * CDirextX11RenderSystem::CompileVertexShader(const char * pShaderText, unsigned long shaderTextLength)
+{
+  return CompileShader(pShaderText, shaderTextLength, "VS", "vs_4_0");
+}
+
+ID3D11VertexShader * CDirextX11RenderSystem::CreateVertexShader(ID3DBlob * pBlob)
+{
+  if (!m_pd3dDevice)
+    return nullptr;
+
+  ID3D11VertexShader* g_pVertexShader = nullptr;        // Вершинный шейдер
+
+  HRESULT hr = m_pd3dDevice->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), NULL, &g_pVertexShader);
+
+  return g_pVertexShader;
+}
+
+ID3D11InputLayout * CDirextX11RenderSystem::CreateVertexLayout(const D3D11_INPUT_ELEMENT_DESC * pInputElementDescs, unsigned int NumElements, ID3DBlob * pBlob)
+{
+  if (!m_pd3dDevice)
+    return nullptr;
+
+  ID3D11InputLayout* g_pVertexLayout = nullptr;         // Описание формата вершин
+
+  HRESULT hr = m_pd3dDevice->CreateInputLayout(pInputElementDescs, NumElements, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &g_pVertexLayout);
+
+  return g_pVertexLayout;
+}
+
+ID3D11Buffer * CDirextX11RenderSystem::CreateConstantBuffer(unsigned int bufferSize)
+{
+  HRESULT hr = S_OK;
+
+  if (!m_pd3dDevice)
+    return nullptr;
+
+  ID3D11Buffer* g_pConstantBuffer = nullptr;            // Константный буфер
+
+  D3D11_BUFFER_DESC bd;                       // Структура, описывающая создаваемый буфер
+  ZeroMemory(&bd, sizeof(bd));                // очищаем ее
+                                              // Создание константного буфера
+  bd.Usage = D3D11_USAGE_DEFAULT;
+  bd.ByteWidth = bufferSize;  // размер буфера = размеру структуры
+  bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;  // тип - константный буфер
+  bd.CPUAccessFlags = 0;
+  hr = m_pd3dDevice->CreateBuffer(&bd, NULL, &g_pConstantBuffer);
+  if (FAILED(hr) || !g_pConstantBuffer)
+    return nullptr;
+
+  return g_pConstantBuffer;
+}
+
+ID3DBlob * CDirextX11RenderSystem::CompileShader(const char * pShaderText, unsigned long shaderTextLength, const char * pEntrypoint, const char * pTargetVersion)
+{
+  ID3DBlob* pBlob = nullptr;
+  ID3DBlob *pErrorBlob = nullptr;
+  HRESULT hr = S_OK;
+
+  hr = D3DCompile(pShaderText, shaderTextLength, nullptr, nullptr, nullptr, pEntrypoint, pTargetVersion, D3D10_SHADER_ENABLE_STRICTNESS, 0, &pBlob, &pErrorBlob);
+
+  if (pErrorBlob)
+  {
+    OutputDebugStringA((char*)pErrorBlob->GetBufferPointer());
+    pErrorBlob->Release();
+    pErrorBlob = nullptr;
+  }
+
+  if (FAILED(hr) || !pBlob)
+    return nullptr;
+
+  return pBlob;
 }
 
 bool CDirextX11RenderSystem::CreateDeviceAndSwapChain(int width, int height, bool fullscreen)
