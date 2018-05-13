@@ -2,15 +2,12 @@
 
 #include "IGraphicsEngine.h"
 
-class IWindowEx;
+class CDirextX11RenderSystem;
+class CGraphics2DDirectX11;
 
-// d3d11.h
-struct ID3D11Device;
-struct ID3D11DeviceContext;
-struct IDXGISwapChain;
-struct ID3D11RenderTargetView;
-struct ID3D11Texture2D;
-struct ID3D11DepthStencilView;
+class IGraphics2D;
+
+class IWindowEx;
 
 class CDirectX11GraphicsEngine : public IGraphicsEngine
 {
@@ -23,18 +20,14 @@ public:
   virtual void ClearScreen() override;
   virtual void Swap() override;
 
+  virtual IGraphics2D* Get2DInterface() override;
+
 private:
   void Cleanup();
 
-  IWindowEx * m_pWindow;
-
   float m_ClearColor[4];
 
-  ID3D11Device           *m_pd3dDevice;          // Устройство (для создания объектов)
-  ID3D11DeviceContext    *m_pImmediateContext;   // Контекст устройства (рисование)
-  IDXGISwapChain         *m_pSwapChain;          // Цепь связи (буфера с экраном)
-  ID3D11RenderTargetView *m_pRenderTargetView;   // Объект заднего буфера
+  CDirextX11RenderSystem* m_pRenderSystem;
 
-  ID3D11Texture2D        *m_pDepthStencil;       // Текстура буфера глубин
-  ID3D11DepthStencilView *m_pDepthStencilView;   // Объект вида, буфер глубин
+  CGraphics2DDirectX11   *m_p2DInterface;
 };

@@ -69,6 +69,15 @@
     <ClInclude Include="IWAVFile.h">
       <Filter>OS</Filter>
     </ClInclude>
+    <ClInclude Include="IGraphics2D.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IPixelShader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IVertexShader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
