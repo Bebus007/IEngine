@@ -165,7 +165,7 @@
   <ItemGroup>
     <ClInclude Include="DirectX11GraphicsEngine.h" />
     <ClInclude Include="DirectX11ShaderSet.h" />
-    <ClInclude Include="DirextX11RenderSystem.h" />
+    <ClInclude Include="DirectX11RenderSystem.h" />
     <ClInclude Include="DirectX11Graphics2D.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -173,7 +173,7 @@
   <ItemGroup>
     <ClCompile Include="DirectX11GraphicsEngine.cpp" />
     <ClCompile Include="DirectX11ShaderSet.cpp" />
-    <ClCompile Include="DirextX11RenderSystem.cpp" />
+    <ClCompile Include="DirectX11RenderSystem.cpp" />
     <ClCompile Include="DirectX11Graphics2D.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

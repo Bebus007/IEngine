@@ -3,11 +3,11 @@
 
 #include "DirectX11Graphics2D.h"
 
-#include "DirextX11RenderSystem.h"
+#include "DirectX11RenderSystem.h"
 
 CDirectX11GraphicsEngine::CDirectX11GraphicsEngine(IWindowEx * pWnd) :
   m_p2DInterface(nullptr),
-  m_pRenderSystem(new CDirextX11RenderSystem(pWnd))
+  m_pRenderSystem(new CDirectX11RenderSystem(pWnd))
 {
 }
 
@@ -25,6 +25,8 @@ bool CDirectX11GraphicsEngine::Init(int width, int height, bool fullscreen)
 
   if (!m_pRenderSystem->Init(width, height, fullscreen))
     return false;
+
+  m_p2DInterface = new CDirectX11Graphics2D(m_pRenderSystem);
 
   SetClearColor(0.0f, 0.0f, 0.25f);
 

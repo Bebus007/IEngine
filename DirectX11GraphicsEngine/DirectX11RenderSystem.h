@@ -1,11 +1,15 @@
 #pragma once
 
+#include <string>
+
 class IWindowEx;
 
-class CDirextX11RenderSystem
+class CDirectX11ShaderSet;
+
+class CDirectX11RenderSystem
 {
 public:
-  CDirextX11RenderSystem(IWindowEx* pWnd);
+  CDirectX11RenderSystem(IWindowEx* pWnd);
 
   bool Init(int width, int height, bool fullscreen);
   void Cleanup();
@@ -15,18 +19,21 @@ public:
 
   void SwapBuffers();
 
-  ID3D11PixelShader* CompilePixelShader(const char* pShaderText, unsigned long shaderTextLength);
-  ID3DBlob* CompileVertexShader(const char* pShaderText, unsigned long shaderTextLength);
+  ID3D11PixelShader* CompilePixelShader(const std::string& text, const std::string& PSEntry, int version);
+  ID3DBlob* CompileVertexShader(const std::string& text, const std::string& VSEntry, int version);
   ID3D11VertexShader* CreateVertexShader(ID3DBlob*);
   ID3D11InputLayout* CreateVertexLayout(const D3D11_INPUT_ELEMENT_DESC* pInputElementDescs, unsigned int NumElements, ID3DBlob*);
   ID3D11Buffer* CreateConstantBuffer(unsigned int bufferSize);
+  void FillBuffer(ID3D11Buffer*, const void* data);
+
+  void ApplyShaderSet(CDirectX11ShaderSet*);
 private:
 
-  ID3DBlob * CompileShader(const char* pShaderText, unsigned long shaderTextLength, const char* pEntrypoint, const char* pTargetVersion);
+  ID3DBlob * CompileShader(const std::string& pShaderText, const std::string& pEntrypoint, const std::string& versionString);
 
   IWindowEx * m_pWindow;
 
-  ID3D11Device * m_pd3dDevice;          // Устройство (для создания объектов)
+  ID3D11Device           *m_pd3dDevice;          // Устройство (для создания объектов)
   ID3D11DeviceContext    *m_pImmediateContext;   // Контекст устройства (рисование)
   IDXGISwapChain         *m_pSwapChain;          // Цепь связи (буфера с экраном)
   ID3D11RenderTargetView *m_pRenderTargetView;   // Объект заднего буфера

@@ -1,11 +1,82 @@
 #include "stdafx.h"
 #include "DirectX11Graphics2D.h"
 
-CDirectX11Graphics2D::CDirectX11Graphics2D(CDirextX11RenderSystem * pRenderSystem) : m_pRenderSystem(pRenderSystem), m_pTestPixelShader(nullptr)
+#include "DirectX11ShaderSet.h"
+
+#include <string>
+
+CDirectX11Graphics2D::CDirectX11Graphics2D(CDirectX11RenderSystem * pRenderSystem) : m_pRenderSystem(pRenderSystem), m_pTestShaderSet(nullptr)
 {
-  InitTestShaders();
+  InitTestShaderSet();
+}
+
+CDirectX11Graphics2D::~CDirectX11Graphics2D()
+{
+  if (m_pTestShaderSet)
+    delete m_pTestShaderSet;
 }
 
 void CDirectX11Graphics2D::DrawTriangle(Vertex a, Vertex b, Vertex c)
 {
+}
+
+void CDirectX11Graphics2D::InitTestShaderSet()
+{
+  static const std::string psEntry = "PS";
+  static const std::string vsEntry = "VS";
+  static const int version = 4;
+  static const std::string shaderText = { "\
+cbuffer ConstantBuffer : register(b0)                                                      \r\n\
+{                                                                                          \r\n\
+  float4 vScreenHalfSize;                                                                  \r\n\
+}                                                                                          \r\n\
+                                                                                           \r\n\
+struct VS_INPUT                                                                            \r\n\
+{                                                                                          \r\n\
+  float2 Pos : POSITION0;                                                                  \r\n\
+};                                                                                         \r\n\
+                                                                                           \r\n\
+struct PS_INPUT                                                                            \r\n\
+{                                                                                          \r\n\
+  float4 Pos : SV_POSITION;                                                                \r\n\
+};                                                                                         \r\n\
+                                                                                           \r\n\
+PS_INPUT VS(VS_INPUT input)                                                                \r\n\
+{                                                                                          \r\n\
+  PS_INPUT output = (PS_INPUT)0;                                                           \r\n\
+  output.Pos.x = input.Pos.x / vScreenHalfSize.x;                                          \r\n\
+  output.Pos.y = input.Pos.y / vScreenHalfSize.y;                                          \r\n\
+  output.Pos.z = 0.5f;                                                                     \r\n\
+                                                                                           \r\n\
+  return output;                                                                           \r\n\
+}                                                                                          \r\n\
+                                                                                           \r\n\
+float4 PS(PS_INPUT input) : SV_Target                                                      \r\n\
+{                                                                                          \r\n\
+  float4 finalColor = 0;                                                                   \r\n\
+  finalColor.r = 1.0f;                                                                     \r\n\
+  finalColor.a = 1.0f;                                                                     \r\n\
+  return finalColor;                                                                       \r\n\
+}                                                                                          \r\n\ " };
+
+  static const D3D11_INPUT_ELEMENT_DESC inputElementDescs[] = {
+    { "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+  };
+  static const unsigned int numElementDescs = ARRAYSIZE(inputElementDescs);
+
+  static const float constantBufferData[] = { 320, 240, 0, 0 };
+  static const size_t constantBufferSize = 16;
+
+  if (!m_pTestShaderSet)
+    m_pTestShaderSet = new CDirectX11ShaderSet;
+
+  m_pTestShaderSet->SetRenderSystem(m_pRenderSystem);
+
+  m_pTestShaderSet->SetShaderText(shaderText, psEntry, vsEntry, version);
+  m_pTestShaderSet->SetInputElementDescriptors(inputElementDescs, numElementDescs);
+  m_pTestShaderSet->SetConstantBufferSize(constantBufferSize);
+
+  m_pTestShaderSet->Compile();
+
+  m_pTestShaderSet->FillConstantBuffer(constantBufferData);
 }

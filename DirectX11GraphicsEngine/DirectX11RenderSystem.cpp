@@ -1,11 +1,13 @@
 #include "stdafx.h"
-#include "DirextX11RenderSystem.h"
+#include "DirectX11RenderSystem.h"
 
 #include "IWindowEx.h"
 
 #include <d3dcompiler.h>
 
-CDirextX11RenderSystem::CDirextX11RenderSystem(IWindowEx* pWnd) :
+#include "DirectX11ShaderSet.h"
+
+CDirectX11RenderSystem::CDirectX11RenderSystem(IWindowEx* pWnd) :
   m_pWindow(pWnd),
   m_pd3dDevice(nullptr),
   m_pImmediateContext(nullptr),
@@ -16,7 +18,7 @@ CDirextX11RenderSystem::CDirextX11RenderSystem(IWindowEx* pWnd) :
 {
 }
 
-bool CDirextX11RenderSystem::Init(int width, int height, bool fullscreen)
+bool CDirectX11RenderSystem::Init(int width, int height, bool fullscreen)
 {
   Cleanup();
 
@@ -55,7 +57,7 @@ bool CDirextX11RenderSystem::Init(int width, int height, bool fullscreen)
   return true;
 }
 
-void CDirextX11RenderSystem::Cleanup()
+void CDirectX11RenderSystem::Cleanup()
 {
   if (m_pSwapChain) m_pSwapChain->SetFullscreenState(FALSE, nullptr);    // switch to windowed mode
 
@@ -74,13 +76,13 @@ void CDirextX11RenderSystem::Cleanup()
   if (m_pd3dDevice) m_pd3dDevice->Release(); m_pd3dDevice = nullptr;
 }
 
-void CDirextX11RenderSystem::ClearScreen(float r, float g, float b, float a)
+void CDirectX11RenderSystem::ClearScreen(float r, float g, float b, float a)
 {
   float clearColor[4] = { r, g, b, a };
   ClearScreen(clearColor);
 }
 
-void CDirextX11RenderSystem::ClearScreen(const float * color)
+void CDirectX11RenderSystem::ClearScreen(const float * color)
 {
   if (!m_pImmediateContext)
     return;
@@ -93,7 +95,7 @@ void CDirextX11RenderSystem::ClearScreen(const float * color)
     m_pImmediateContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-void CDirextX11RenderSystem::SwapBuffers()
+void CDirectX11RenderSystem::SwapBuffers()
 {
   if (!m_pSwapChain)
     return;
@@ -101,12 +103,19 @@ void CDirextX11RenderSystem::SwapBuffers()
   m_pSwapChain->Present(0, 0);
 }
 
-ID3D11PixelShader * CDirextX11RenderSystem::CompilePixelShader(const char * pShaderText, unsigned long shaderTextLength)
+ID3D11PixelShader * CDirectX11RenderSystem::CompilePixelShader(const std::string& text, const std::string& PSEntry, int version)
 {
   if (!m_pd3dDevice)
     return nullptr;
 
-  ID3DBlob* pPSBlob = CompileShader(pShaderText, shaderTextLength, "PS", "ps_4_0");
+  char pBuff[32];
+  _itoa_s(version, pBuff, 10);
+
+  std::string versionString = "ps_";
+  versionString += pBuff;
+  versionString += "_0";
+
+  ID3DBlob* pPSBlob = CompileShader(text, PSEntry, versionString);
   if (!pPSBlob)
     return nullptr;
 
@@ -124,12 +133,19 @@ ID3D11PixelShader * CDirextX11RenderSystem::CompilePixelShader(const char * pSha
   return g_pPixelShader;
 }
 
-ID3DBlob * CDirextX11RenderSystem::CompileVertexShader(const char * pShaderText, unsigned long shaderTextLength)
+ID3DBlob * CDirectX11RenderSystem::CompileVertexShader(const std::string& text, const std::string& VSEntry, int version)
 {
-  return CompileShader(pShaderText, shaderTextLength, "VS", "vs_4_0");
+  char pBuff[32];
+  _itoa_s(version, pBuff, 10);
+
+  std::string versionString = "vs_";
+  versionString += pBuff;
+  versionString += "_0";
+
+  return CompileShader(text, VSEntry, versionString);
 }
 
-ID3D11VertexShader * CDirextX11RenderSystem::CreateVertexShader(ID3DBlob * pBlob)
+ID3D11VertexShader * CDirectX11RenderSystem::CreateVertexShader(ID3DBlob * pBlob)
 {
   if (!m_pd3dDevice)
     return nullptr;
@@ -141,7 +157,7 @@ ID3D11VertexShader * CDirextX11RenderSystem::CreateVertexShader(ID3DBlob * pBlob
   return g_pVertexShader;
 }
 
-ID3D11InputLayout * CDirextX11RenderSystem::CreateVertexLayout(const D3D11_INPUT_ELEMENT_DESC * pInputElementDescs, unsigned int NumElements, ID3DBlob * pBlob)
+ID3D11InputLayout * CDirectX11RenderSystem::CreateVertexLayout(const D3D11_INPUT_ELEMENT_DESC * pInputElementDescs, unsigned int NumElements, ID3DBlob * pBlob)
 {
   if (!m_pd3dDevice)
     return nullptr;
@@ -153,7 +169,7 @@ ID3D11InputLayout * CDirextX11RenderSystem::CreateVertexLayout(const D3D11_INPUT
   return g_pVertexLayout;
 }
 
-ID3D11Buffer * CDirextX11RenderSystem::CreateConstantBuffer(unsigned int bufferSize)
+ID3D11Buffer * CDirectX11RenderSystem::CreateConstantBuffer(unsigned int bufferSize)
 {
   HRESULT hr = S_OK;
 
@@ -166,7 +182,7 @@ ID3D11Buffer * CDirextX11RenderSystem::CreateConstantBuffer(unsigned int bufferS
   ZeroMemory(&bd, sizeof(bd));                // очищаем ее
                                               // Создание константного буфера
   bd.Usage = D3D11_USAGE_DEFAULT;
-  bd.ByteWidth = bufferSize;  // размер буфера = размеру структуры
+  bd.ByteWidth = bufferSize;                  // размер буфера = размеру структуры, должен быть кратным 16-ти
   bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;  // тип - константный буфер
   bd.CPUAccessFlags = 0;
   hr = m_pd3dDevice->CreateBuffer(&bd, NULL, &g_pConstantBuffer);
@@ -176,13 +192,33 @@ ID3D11Buffer * CDirextX11RenderSystem::CreateConstantBuffer(unsigned int bufferS
   return g_pConstantBuffer;
 }
 
-ID3DBlob * CDirextX11RenderSystem::CompileShader(const char * pShaderText, unsigned long shaderTextLength, const char * pEntrypoint, const char * pTargetVersion)
+void CDirectX11RenderSystem::FillBuffer(ID3D11Buffer* pBuffer, const void * pData)
+{
+  if (!pBuffer || !pData)
+    return;
+
+  // загружаем временную структуру в константный буфер g_pConstantBuffer
+  m_pImmediateContext->UpdateSubresource(pBuffer, 0, NULL, pData, 0, 0);
+}
+
+void CDirectX11RenderSystem::ApplyShaderSet(CDirectX11ShaderSet * pShaderSet)
+{
+  ID3D11Buffer* pBuffer = pShaderSet->GetConstantBuffer();
+
+  m_pImmediateContext->IASetInputLayout(pShaderSet->GetInputLayout());
+  m_pImmediateContext->VSSetShader(pShaderSet->GetVertexShader(), NULL, 0);
+  m_pImmediateContext->VSSetConstantBuffers(0, 1, &pBuffer);
+  m_pImmediateContext->PSSetShader(pShaderSet->GetPixelShader(), NULL, 0);
+  m_pImmediateContext->PSSetConstantBuffers(0, 1, &pBuffer);
+}
+
+ID3DBlob * CDirectX11RenderSystem::CompileShader(const std::string& shaderText, const std::string& entrypoint, const std::string & versionString)
 {
   ID3DBlob* pBlob = nullptr;
   ID3DBlob *pErrorBlob = nullptr;
   HRESULT hr = S_OK;
 
-  hr = D3DCompile(pShaderText, shaderTextLength, nullptr, nullptr, nullptr, pEntrypoint, pTargetVersion, D3D10_SHADER_ENABLE_STRICTNESS, 0, &pBlob, &pErrorBlob);
+  hr = D3DCompile(shaderText.c_str(), shaderText.length(), nullptr, nullptr, nullptr, entrypoint.c_str(), versionString.c_str(), D3D10_SHADER_ENABLE_STRICTNESS, 0, &pBlob, &pErrorBlob);
 
   if (pErrorBlob)
   {
@@ -197,7 +233,7 @@ ID3DBlob * CDirextX11RenderSystem::CompileShader(const char * pShaderText, unsig
   return pBlob;
 }
 
-bool CDirextX11RenderSystem::CreateDeviceAndSwapChain(int width, int height, bool fullscreen)
+bool CDirectX11RenderSystem::CreateDeviceAndSwapChain(int width, int height, bool fullscreen)
 {
   HRESULT hr = S_OK;
 
@@ -261,7 +297,7 @@ bool CDirextX11RenderSystem::CreateDeviceAndSwapChain(int width, int height, boo
   return true;
 }
 
-void CDirextX11RenderSystem::SetupViewport(float width, float height)
+void CDirectX11RenderSystem::SetupViewport(float width, float height)
 {
   if (!m_pImmediateContext)
     return;
@@ -277,7 +313,7 @@ void CDirextX11RenderSystem::SetupViewport(float width, float height)
   m_pImmediateContext->RSSetViewports(1, &vp);
 }
 
-bool CDirextX11RenderSystem::CreateBackBuffer()
+bool CDirectX11RenderSystem::CreateBackBuffer()
 {
   // RenderTargetOutput - это передний буфер, а RenderTargetView - задний.
   HRESULT hr = S_OK;
@@ -296,7 +332,7 @@ bool CDirextX11RenderSystem::CreateBackBuffer()
   return true;
 }
 
-bool CDirextX11RenderSystem::CreateDepthStencilBuffer(unsigned int width, unsigned int height)
+bool CDirectX11RenderSystem::CreateDepthStencilBuffer(unsigned int width, unsigned int height)
 {
   HRESULT hr = S_OK;
 

@@ -2,7 +2,7 @@
 
 #include <string>
 
-class CDirextX11RenderSystem;
+class CDirectX11RenderSystem;
 
 class CDirectX11ShaderSet
 {
@@ -13,8 +13,8 @@ public:
 
   void DestroyDXObjects();
 
-  CDirextX11RenderSystem* GetRenderSystem() const;
-  void SetRenderSystem(CDirextX11RenderSystem*);
+  CDirectX11RenderSystem* GetRenderSystem() const;
+  void SetRenderSystem(CDirectX11RenderSystem*);
 
   void Compile();
   bool IsCompiled() const;
@@ -29,6 +29,8 @@ public:
   int GetInputElementDescriptorsCount() const;
   const D3D11_INPUT_ELEMENT_DESC* GetInputElementDescriptors() const;
 
+  void SetConstantBufferSize(size_t);
+
   ID3D11PixelShader* GetPixelShader() const;
   void SetPixelShader(ID3D11PixelShader*);
 
@@ -40,9 +42,10 @@ public:
 
   ID3D11Buffer* GetConstantBuffer() const;
   void SetConstantBuffer(ID3D11Buffer*);
+  void FillConstantBuffer(const void* pData);
 
 private:
-  CDirextX11RenderSystem* m_pRenderSystem;
+  CDirectX11RenderSystem* m_pRenderSystem;
 
   std::string m_shaderText;
   std::string m_PSEntry;
@@ -50,6 +53,8 @@ private:
   int m_version;
   unsigned int m_numElementDescs;
   D3D11_INPUT_ELEMENT_DESC* m_inputElementDescs;
+
+  size_t m_constantBufferSize;
 
   ID3D11PixelShader* m_pPixelShader;
   ID3D11VertexShader* m_pVertexShader;

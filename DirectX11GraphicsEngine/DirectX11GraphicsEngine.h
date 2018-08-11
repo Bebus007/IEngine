@@ -2,7 +2,7 @@
 
 #include "IGraphicsEngine.h"
 
-class CDirextX11RenderSystem;
+class CDirectX11RenderSystem;
 class CDirectX11Graphics2D;
 
 class IGraphics2D;
@@ -27,7 +27,7 @@ private:
 
   float m_ClearColor[4];
 
-  CDirextX11RenderSystem* m_pRenderSystem;
+  CDirectX11RenderSystem* m_pRenderSystem;
 
   CDirectX11Graphics2D   *m_p2DInterface;
 };
