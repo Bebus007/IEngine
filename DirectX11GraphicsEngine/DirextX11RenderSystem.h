@@ -1,20 +1,5 @@
 #pragma once
 
-//#include <d3d11.h>
-struct ID3D11Device;
-struct ID3D11DeviceContext;
-struct IDXGISwapChain;
-struct ID3D11RenderTargetView;
-struct ID3D11Texture2D;
-struct ID3D11DepthStencilView;
-
-struct ID3D11PixelShader;
-struct ID3D11VertexShader;
-struct ID3D11InputLayout;
-struct D3D11_INPUT_ELEMENT_DESC;
-typedef struct ID3D10Blob ID3DBlob;
-struct ID3D11Buffer;
-
 class IWindowEx;
 
 class CDirextX11RenderSystem

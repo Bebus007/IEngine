@@ -3,7 +3,7 @@
 #include "IGraphicsEngine.h"
 
 class CDirextX11RenderSystem;
-class CGraphics2DDirectX11;
+class CDirectX11Graphics2D;
 
 class IGraphics2D;
 
@@ -29,5 +29,5 @@ private:
 
   CDirextX11RenderSystem* m_pRenderSystem;
 
-  CGraphics2DDirectX11   *m_p2DInterface;
+  CDirectX11Graphics2D   *m_p2DInterface;
 };

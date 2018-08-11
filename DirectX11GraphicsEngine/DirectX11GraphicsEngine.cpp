@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "DirectX11GraphicsEngine.h"
 
-#include "Graphics2DDirectX11.h"
+#include "DirectX11Graphics2D.h"
 
 #include "DirextX11RenderSystem.h"
-
-#include <d3d11.h>
 
 CDirectX11GraphicsEngine::CDirectX11GraphicsEngine(IWindowEx * pWnd) :
   m_p2DInterface(nullptr),

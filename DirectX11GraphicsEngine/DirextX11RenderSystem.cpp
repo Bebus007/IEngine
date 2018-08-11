@@ -3,7 +3,6 @@
 
 #include "IWindowEx.h"
 
-#include <d3d11.h>
 #include <d3dcompiler.h>
 
 CDirextX11RenderSystem::CDirextX11RenderSystem(IWindowEx* pWnd) :

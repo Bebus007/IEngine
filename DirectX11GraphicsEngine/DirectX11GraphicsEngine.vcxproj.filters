@@ -24,10 +24,13 @@
     <ClInclude Include="DirectX11GraphicsEngine.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics2DDirectX11.h">
+    <ClInclude Include="DirextX11RenderSystem.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DirextX11RenderSystem.h">
+    <ClInclude Include="DirectX11Graphics2D.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11ShaderSet.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,10 +41,13 @@
     <ClCompile Include="DirectX11GraphicsEngine.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics2DDirectX11.cpp">
+    <ClCompile Include="DirextX11RenderSystem.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DirextX11RenderSystem.cpp">
+    <ClCompile Include="DirectX11Graphics2D.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11ShaderSet.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
