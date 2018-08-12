@@ -147,7 +147,7 @@ ID3DBlob * CDirectX11RenderSystem::CompileVertexShader(const std::string& text, 
 
 ID3D11VertexShader * CDirectX11RenderSystem::CreateVertexShader(ID3DBlob * pBlob)
 {
-  if (!m_pd3dDevice)
+  if (!m_pd3dDevice || !pBlob)
     return nullptr;
 
   ID3D11VertexShader* g_pVertexShader = nullptr;        // Вершинный шейдер
@@ -159,7 +159,7 @@ ID3D11VertexShader * CDirectX11RenderSystem::CreateVertexShader(ID3DBlob * pBlob
 
 ID3D11InputLayout * CDirectX11RenderSystem::CreateVertexLayout(const D3D11_INPUT_ELEMENT_DESC * pInputElementDescs, unsigned int NumElements, ID3DBlob * pBlob)
 {
-  if (!m_pd3dDevice)
+  if (!m_pd3dDevice || !pBlob)
     return nullptr;
 
   ID3D11InputLayout* g_pVertexLayout = nullptr;         // Описание формата вершин
@@ -199,6 +199,44 @@ void CDirectX11RenderSystem::FillBuffer(ID3D11Buffer* pBuffer, const void * pDat
 
   // загружаем временную структуру в константный буфер g_pConstantBuffer
   m_pImmediateContext->UpdateSubresource(pBuffer, 0, NULL, pData, 0, 0);
+}
+
+ID3D11Buffer * CDirectX11RenderSystem::CreateVertexBuffer(unsigned int bufferSize, void* bufferData)
+{
+  ID3D11Buffer* result = nullptr;
+
+  if (bufferSize == 0 || bufferData == nullptr)
+    return nullptr;
+
+  HRESULT hr = S_OK;
+  D3D11_BUFFER_DESC bd;
+  ZeroMemory(&bd, sizeof(bd));
+  D3D11_SUBRESOURCE_DATA InitData;
+  ZeroMemory(&InitData, sizeof(InitData));
+
+  bd.Usage = D3D11_USAGE_DEFAULT;
+  bd.CPUAccessFlags = 0;
+  bd.ByteWidth = bufferSize;
+  bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+  InitData.pSysMem = bufferData;
+
+  hr = m_pd3dDevice->CreateBuffer(&bd, &InitData, &result);
+
+  if (FAILED(hr)) return nullptr;
+
+  return result;
+}
+
+void CDirectX11RenderSystem::DrawVertexBuffer(ID3D11Buffer * pBuff, UINT vertexSize, UINT vertexCount, D3D11_PRIMITIVE_TOPOLOGY topologyType)
+{
+  ID3D11Buffer* pLocBuff = pBuff;
+  UINT offset = 0;
+
+  m_pImmediateContext->IASetVertexBuffers(0, 1, &pLocBuff, &vertexSize, &offset);
+  m_pImmediateContext->IASetPrimitiveTopology(topologyType);
+
+  m_pImmediateContext->Draw(vertexCount, 0);
 }
 
 void CDirectX11RenderSystem::ApplyShaderSet(CDirectX11ShaderSet * pShaderSet)

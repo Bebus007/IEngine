@@ -26,6 +26,9 @@ public:
   ID3D11Buffer* CreateConstantBuffer(unsigned int bufferSize);
   void FillBuffer(ID3D11Buffer*, const void* data);
 
+  ID3D11Buffer* CreateVertexBuffer(unsigned int bufferSize, void* bufferData);
+  void DrawVertexBuffer(ID3D11Buffer* pBuff, UINT vertexSize, UINT vertexCount, D3D11_PRIMITIVE_TOPOLOGY topologyType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
   void ApplyShaderSet(CDirectX11ShaderSet*);
 private:
 

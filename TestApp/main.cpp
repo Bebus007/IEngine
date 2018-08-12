@@ -8,6 +8,7 @@ using namespace std;
 #include "IInputEngine.h"
 #include "IKeyboard.h"
 #include "IGraphicsEngine.h"
+#include "IGraphics2D.h"
 #include "ISoundEngine.h"
 #include "ISound.h"
 
@@ -20,11 +21,6 @@ void main()
 
   IWindow* pGameWindow = pOSEngine->GetWindowInstance();
 
-  IFile* pSoundFile = pOSEngine->OpenFile("test.wav");
-  ISoundEngine* pSoundEngine = IEngine::CreateSoundEngine(pGameWindow);
-  ISound* pSound = pSoundEngine->CreateSound(pSoundFile);
-  pSound->Play();
-
   auto pInputEngine = IEngine::CreateInputEngine(pGameWindow);
 
   auto pKeyboard = pInputEngine->GetKeyboard();
@@ -33,17 +29,26 @@ void main()
 
   pGraphicsEngine->Init();
 
+  auto p2DInterface = pGraphicsEngine->Get2DInterface();
+
+  IGraphics2D::Vertex vertices[3] = {
+    {-200.0f, -240.0f},
+    {0.0f, 240.0f},
+    {200.0f, -240.0f}
+  };
+
   while (!pKeyboard->IsKeyDown(IKeyboard::KEY_ESCAPE) && pGameWindow->Idle())
   {
     if (pKeyboard->IsKeyDown(IKeyboard::KEY_ESCAPE))
       break;
 
     pGraphicsEngine->ClearScreen();
+
+    p2DInterface->DrawTriangle(vertices[0], vertices[1], vertices[2]);
+
     pGraphicsEngine->Swap();
   }
 
   delete pInputEngine;
   delete pOSEngine;
-  delete pSoundEngine;
-  delete pSoundFile;
 }

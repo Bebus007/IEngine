@@ -2,6 +2,7 @@
 #include "DirectX11Graphics2D.h"
 
 #include "DirectX11ShaderSet.h"
+#include "DirectX11RenderSystem.h"
 
 #include <string>
 
@@ -18,6 +19,20 @@ CDirectX11Graphics2D::~CDirectX11Graphics2D()
 
 void CDirectX11Graphics2D::DrawTriangle(Vertex a, Vertex b, Vertex c)
 {
+  if (!m_pRenderSystem)
+    return;
+
+  const unsigned int vertexCount = 3;
+  Vertex vertexArray[vertexCount] = { a, b, c };
+  ID3D11Buffer* pVertexBuffer = m_pRenderSystem->CreateVertexBuffer(sizeof(Vertex) * vertexCount, vertexArray);
+  if (!pVertexBuffer)
+    return;
+
+  m_pRenderSystem->ApplyShaderSet(m_pTestShaderSet);
+
+  m_pRenderSystem->DrawVertexBuffer(pVertexBuffer, sizeof(Vertex), vertexCount);
+
+  pVertexBuffer->Release();
 }
 
 void CDirectX11Graphics2D::InitTestShaderSet()
@@ -47,6 +62,7 @@ PS_INPUT VS(VS_INPUT input)                                                     
   output.Pos.x = input.Pos.x / vScreenHalfSize.x;                                          \r\n\
   output.Pos.y = input.Pos.y / vScreenHalfSize.y;                                          \r\n\
   output.Pos.z = 0.5f;                                                                     \r\n\
+  output.Pos.w = 1.0f;                                                                     \r\n\
                                                                                            \r\n\
   return output;                                                                           \r\n\
 }                                                                                          \r\n\
