@@ -50,6 +50,15 @@ void CWindowsWindow::SetClientSize(int w, int h)
   MoveWindow(m_hWnd, oldRc.left, oldRc.top, rc.right - rc.left, rc.bottom - rc.top, FALSE);
 }
 
+void CWindowsWindow::GetClientSize(int* w, int* h) const
+{
+  RECT rc;
+  GetClientRect(m_hWnd, &rc);
+
+  *w = rc.right - rc.left;
+  *h = rc.bottom - rc.top;
+}
+
 void * CWindowsWindow::GetHandle() const
 {
   return (void*)m_hWnd;
@@ -74,6 +83,10 @@ bool CWindowsWindow::Idle()
   return result;
 }
 
+void CWindowsWindow::AddWindowResizeEventListener(IWindowResizeEventListener * pListener) { m_resizeListenersList.push_back(pListener); }
+
+void CWindowsWindow::RemoveWindowResizeEventListener(IWindowResizeEventListener * pListener) { m_resizeListenersList.remove(pListener); }
+
 LRESULT CWindowsWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 {
   PAINTSTRUCT ps;
@@ -88,6 +101,11 @@ LRESULT CWindowsWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam
 
   case WM_DESTROY:
     PostQuitMessage(0);
+    break;
+
+  case WM_SIZE:
+    for (auto it = m_resizeListenersList.begin(); it != m_resizeListenersList.end(); it++)
+      (*it)->HandleWindowResize(LOWORD(lParam), HIWORD(lParam));
     break;
 
   default:

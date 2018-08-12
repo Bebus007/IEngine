@@ -5,14 +5,22 @@
 
 #include "DirectX11RenderSystem.h"
 
+#include "IWindowEx.h"
+
 CDirectX11GraphicsEngine::CDirectX11GraphicsEngine(IWindowEx * pWnd) :
   m_p2DInterface(nullptr),
-  m_pRenderSystem(new CDirectX11RenderSystem(pWnd))
+  m_pRenderSystem(new CDirectX11RenderSystem(pWnd)),
+  m_pWindow(pWnd)
 {
+  if (GetWindow())
+    GetWindow()->AddWindowResizeEventListener(this);
 }
 
 CDirectX11GraphicsEngine::~CDirectX11GraphicsEngine()
 {
+  if (GetWindow())
+    GetWindow()->RemoveWindowResizeEventListener(this);
+
   Cleanup();
 
   if (m_pRenderSystem)
@@ -53,10 +61,14 @@ void CDirectX11GraphicsEngine::Swap()
     m_pRenderSystem->SwapBuffers();
 }
 
-IGraphics2D * CDirectX11GraphicsEngine::Get2DInterface()
+IGraphics2D * CDirectX11GraphicsEngine::Get2DInterface() { return m_p2DInterface; }
+
+void CDirectX11GraphicsEngine::HandleWindowResize(int newW, int newH)
 {
-  return m_p2DInterface;
+  m_pRenderSystem->ResizeSwapChain(newW, newH);
 }
+
+IWindowEx * CDirectX11GraphicsEngine::GetWindow() const { return m_pWindow; }
 
 void CDirectX11GraphicsEngine::Cleanup()
 {

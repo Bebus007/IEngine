@@ -13,6 +13,9 @@ public:
   ~CDirectX11Graphics2D();
 
   virtual void DrawTriangle(Vertex a, Vertex b, Vertex c) override;
+
+  virtual int GetWidth() const override;
+  virtual int GetHeight() const override;
 private:
   CDirectX11RenderSystem * m_pRenderSystem;
 

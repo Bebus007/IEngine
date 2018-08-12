@@ -28,11 +28,30 @@ void CDirectX11Graphics2D::DrawTriangle(Vertex a, Vertex b, Vertex c)
   if (!pVertexBuffer)
     return;
 
+  float constantBufferData[] = { GetWidth(), GetHeight(), 0, 0 };
+  m_pTestShaderSet->FillConstantBuffer(constantBufferData);
+
   m_pRenderSystem->ApplyShaderSet(m_pTestShaderSet);
 
   m_pRenderSystem->DrawVertexBuffer(pVertexBuffer, sizeof(Vertex), vertexCount);
 
   pVertexBuffer->Release();
+}
+
+int CDirectX11Graphics2D::GetWidth() const
+{
+  if (!m_pRenderSystem)
+    return 0;
+
+  return m_pRenderSystem->GetWidth();
+}
+
+int CDirectX11Graphics2D::GetHeight() const
+{
+  if (!m_pRenderSystem)
+    return 0;
+
+  return m_pRenderSystem->GetHeight();
 }
 
 void CDirectX11Graphics2D::InitTestShaderSet()

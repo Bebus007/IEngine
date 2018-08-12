@@ -2,6 +2,8 @@
 
 #include "IGraphicsEngine.h"
 
+#include "IWindow.h"
+
 class CDirectX11RenderSystem;
 class CDirectX11Graphics2D;
 
@@ -9,7 +11,7 @@ class IGraphics2D;
 
 class IWindowEx;
 
-class CDirectX11GraphicsEngine : public IGraphicsEngine
+class CDirectX11GraphicsEngine : public IGraphicsEngine, public IWindow::IWindowResizeEventListener
 {
 public:
   CDirectX11GraphicsEngine(IWindowEx*);
@@ -22,6 +24,10 @@ public:
 
   virtual IGraphics2D* Get2DInterface() override;
 
+  virtual void HandleWindowResize(int newW, int newH) override;
+
+  IWindowEx* GetWindow() const;
+
 private:
   void Cleanup();
 
@@ -30,4 +36,6 @@ private:
   CDirectX11RenderSystem* m_pRenderSystem;
 
   CDirectX11Graphics2D   *m_p2DInterface;
+
+  IWindowEx* m_pWindow;
 };

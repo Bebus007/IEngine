@@ -76,6 +76,75 @@ void CDirectX11RenderSystem::Cleanup()
   if (m_pd3dDevice) m_pd3dDevice->Release(); m_pd3dDevice = nullptr;
 }
 
+bool CDirectX11RenderSystem::ResizeSwapChain(int width, int height)
+{
+  if (!m_pImmediateContext || !m_pRenderTargetView || !m_pSwapChain)
+    return false;
+
+  m_pImmediateContext->OMSetRenderTargets(0, 0, 0);
+
+  // Release all outstanding references to the swap chain's buffers.
+  m_pRenderTargetView->Release();
+
+  HRESULT hr;
+  // Preserve the existing buffer count and format.
+  // Automatically choose the width and height to match the client rect for HWNDs.
+  hr = m_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+
+  if (FAILED(hr))
+    return false;
+
+  // Get buffer and create a render-target-view.
+  ID3D11Texture2D* pBuffer;
+  hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+    (void**)&pBuffer);
+
+  if (FAILED(hr))
+    return false;
+
+  hr = m_pd3dDevice->CreateRenderTargetView(pBuffer, NULL,
+    &m_pRenderTargetView);
+
+  if (FAILED(hr))
+    return false;
+
+  pBuffer->Release();
+
+  m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
+
+  // Set up the viewport.
+  D3D11_VIEWPORT vp;
+  vp.Width = width;
+  vp.Height = height;
+  vp.MinDepth = 0.0f;
+  vp.MaxDepth = 1.0f;
+  vp.TopLeftX = 0;
+  vp.TopLeftY = 0;
+  m_pImmediateContext->RSSetViewports(1, &vp);
+}
+
+int CDirectX11RenderSystem::GetWidth() const
+{
+  if (!m_pWindow)
+    return 0;
+
+  int w, h;
+  m_pWindow->GetClientSize(&w, &h);
+
+  return w;
+}
+
+int CDirectX11RenderSystem::GetHeight() const
+{
+  if (!m_pWindow)
+    return 0;
+
+  int w, h;
+  m_pWindow->GetClientSize(&w, &h);
+
+  return h;
+}
+
 void CDirectX11RenderSystem::ClearScreen(float r, float g, float b, float a)
 {
   float clearColor[4] = { r, g, b, a };

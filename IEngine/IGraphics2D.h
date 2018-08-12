@@ -13,4 +13,7 @@ public:
   };
 
   virtual void DrawTriangle(Vertex a, Vertex b, Vertex c) = 0;
+
+  virtual int GetWidth() const = 0;
+  virtual int GetHeight() const = 0;
 };

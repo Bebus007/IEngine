@@ -14,6 +14,10 @@ public:
   bool Init(int width, int height, bool fullscreen);
   void Cleanup();
 
+  bool ResizeSwapChain(int width, int height);
+  int GetWidth() const;
+  int GetHeight() const;
+
   void ClearScreen(float r, float g, float b, float a = 1.0f);
   void ClearScreen(const float* color);
 
