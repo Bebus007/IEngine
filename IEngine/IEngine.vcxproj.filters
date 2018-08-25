@@ -78,6 +78,9 @@
     <ClInclude Include="IVertexShader.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="IFont.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
