@@ -15,6 +15,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectX11GraphicsEngine", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectSoundEngine", "DirectSoundEngine\DirectSoundEngine.vcxproj", "{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FontCreator", "FontCreator", "{F6C75D0B-150B-4DBC-B2A9-8ABEDC4C570A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FontCreatorApp", "FontCreatorApp\FontCreatorApp.vcxproj", "{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,9 +75,20 @@ Global
 		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Release|x64.Build.0 = Release|x64
 		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Release|x86.ActiveCfg = Release|Win32
 		{362E422D-AC25-4E2C-883E-1BA5B15A5B9C}.Release|x86.Build.0 = Release|Win32
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}.Debug|x64.ActiveCfg = Debug|x64
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}.Debug|x64.Build.0 = Debug|x64
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}.Debug|x86.ActiveCfg = Debug|Win32
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}.Debug|x86.Build.0 = Debug|Win32
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}.Release|x64.ActiveCfg = Release|x64
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}.Release|x64.Build.0 = Release|x64
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}.Release|x86.ActiveCfg = Release|Win32
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C5C6D0C-5BB3-42A8-8102-73E3C302F277} = {F6C75D0B-150B-4DBC-B2A9-8ABEDC4C570A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F47A0239-8FA0-4136-A874-17BAC48AF25A}
