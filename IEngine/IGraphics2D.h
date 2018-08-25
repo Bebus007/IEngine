@@ -5,21 +5,23 @@ class IFont;
 class IGraphics2D
 {
 public:
-  struct Vertex
+  struct Vertex_t
   {
-    Vertex() : X(0), Y(0) {}
-    Vertex(float x, float y) : X(x), Y(y) {}
-    Vertex(const Vertex& v) : X(v.X), Y(v.Y) {}
+    Vertex_t() : X(0), Y(0) {}
+    Vertex_t(float x, float y) : X(x), Y(y) {}
+    Vertex_t(const Vertex_t& v) : X(v.X), Y(v.Y) {}
     float X;
     float Y;
   };
 
-  virtual void DrawTriangle(Vertex a, Vertex b, Vertex c) = 0;
+  typedef Vertex_t Size_t;
+
+  virtual void DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c) = 0;
 
   virtual int GetWidth() const = 0;
   virtual int GetHeight() const = 0;
 
   virtual IFont* CreateFontInstance(int height, const char* fontname) = 0;
-  virtual void DrawText(const Vertex& pos, IFont* font, const char* text) = 0;
-  virtual Vertex GetTextSize(IFont* pFont, const char* text) = 0;
+  virtual void DrawText(const Vertex_t& pos, IFont* font, const char* text) = 0;
+  virtual Size_t GetTextSize(IFont* pFont, const char* text) = 0;
 };

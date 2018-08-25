@@ -54,8 +54,8 @@ void CApp::Run()
   while (m_pWindow->Idle())
   {
     char val[2] = { 0, 0 };
-    int offsetX, offsetY;
-    offsetX = offsetY = 0;
+    float offsetX, offsetY;
+    offsetX = offsetY = 0.0f;
     for (int i = 0; i < 8; i++)
     {
       offsetX = 0;
@@ -64,10 +64,10 @@ void CApp::Run()
       {
         val[0] = (char)(i * 32 + j);
 
-        IGraphics2D::Vertex size = m_pGraphics2D->GetTextSize(m_pFont, val);
+        IGraphics2D::Size_t size = m_pGraphics2D->GetTextSize(m_pFont, val);
         offsetX += size.X;
 
-        m_pGraphics2D->DrawText(IGraphics2D::Vertex(offsetX, offsetY), m_pFont, val);
+        m_pGraphics2D->DrawText(IGraphics2D::Vertex_t(offsetX, offsetY), m_pFont, val);
       }
 
       offsetY += textSize;

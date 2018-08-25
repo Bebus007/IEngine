@@ -31,7 +31,7 @@ int main()
 
   auto p2DInterface = pGraphicsEngine->Get2DInterface();
 
-  IGraphics2D::Vertex vertices[3] = {
+  IGraphics2D::Vertex_t vertices[3] = {
     {-200.0f, -240.0f},
     {0.0f, 240.0f},
     {200.0f, -240.0f}

@@ -17,14 +17,14 @@ CDirectX11Graphics2D::~CDirectX11Graphics2D()
     delete m_pTestShaderSet;
 }
 
-void CDirectX11Graphics2D::DrawTriangle(Vertex a, Vertex b, Vertex c)
+void CDirectX11Graphics2D::DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c)
 {
   if (!m_pRenderSystem)
     return;
 
   const unsigned int vertexCount = 3;
-  Vertex vertexArray[vertexCount] = { a, b, c };
-  ID3D11Buffer* pVertexBuffer = m_pRenderSystem->CreateVertexBuffer(sizeof(Vertex) * vertexCount, vertexArray);
+  Vertex_t vertexArray[vertexCount] = { a, b, c };
+  ID3D11Buffer* pVertexBuffer = m_pRenderSystem->CreateVertexBuffer(sizeof(Vertex_t) * vertexCount, vertexArray);
   if (!pVertexBuffer)
     return;
 
@@ -33,7 +33,7 @@ void CDirectX11Graphics2D::DrawTriangle(Vertex a, Vertex b, Vertex c)
 
   m_pRenderSystem->ApplyShaderSet(m_pTestShaderSet);
 
-  m_pRenderSystem->DrawVertexBuffer(pVertexBuffer, sizeof(Vertex), vertexCount);
+  m_pRenderSystem->DrawVertexBuffer(pVertexBuffer, sizeof(Vertex_t), vertexCount);
 
   pVertexBuffer->Release();
 }
@@ -59,13 +59,13 @@ IFont * CDirectX11Graphics2D::CreateFontInstance(int height, const char * fontna
   return nullptr;
 }
 
-void CDirectX11Graphics2D::DrawText(const Vertex& pos, IFont* font, const char* text)
+void CDirectX11Graphics2D::DrawText(const Vertex_t& pos, IFont* font, const char* text)
 {
 }
 
-IGraphics2D::Vertex CDirectX11Graphics2D::GetTextSize(IFont * pFont, const char * text)
+IGraphics2D::Size_t CDirectX11Graphics2D::GetTextSize(IFont * pFont, const char * text)
 {
-  return Vertex();
+  return Size_t();
 }
 
 void CDirectX11Graphics2D::InitTestShaderSet()
