@@ -147,7 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="IFont.h" />
     <ClInclude Include="IGraphics2D.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IFile.h" />

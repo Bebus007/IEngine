@@ -2,8 +2,6 @@
 
 #include "IOperatingSystemEngine.h"
 
-#include <Windows.h>
-
 class CWindowsOSEngine : public IOperatingSystemEngine
 {
 public:
