@@ -12,7 +12,7 @@ using namespace std;
 #include "ISoundEngine.h"
 #include "ISound.h"
 
-void main()
+int main()
 {
   IOperatingSystemEngine* pOSEngine = IEngine::CreateOperatingSystemEngine();
 
@@ -25,7 +25,7 @@ void main()
 
   auto pKeyboard = pInputEngine->GetKeyboard();
 
-  auto pGraphicsEngine = IEngine::CreateGraphicsEngine(pGameWindow);
+  auto pGraphicsEngine = IEngine::CreateGraphicsEngine(IEngine::GraphicsEngineType_e::GET_DIRECT_X_11, pGameWindow);
 
   pGraphicsEngine->Init();
 
@@ -49,6 +49,9 @@ void main()
     pGraphicsEngine->Swap();
   }
 
-  delete pInputEngine;
-  delete pOSEngine;
+  pGraphicsEngine->Destroy();
+  pInputEngine->Destroy();
+  pOSEngine->Destroy();
+
+  return 0;
 }

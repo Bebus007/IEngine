@@ -66,3 +66,8 @@ IGamepad * CDirectInputEngine::GetGamepad()
 {
   return nullptr;
 }
+
+void CDirectInputEngine::Destroy()
+{
+  delete this;
+}

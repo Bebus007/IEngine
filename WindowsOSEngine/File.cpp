@@ -44,7 +44,7 @@ void CFile::Load()
   ifstream inp;
   inp.open(m_filename, ios::binary | ios::ate);
 
-  m_size = inp.tellg();
+  m_size = (size_t)inp.tellg();
   inp.seekg(0, ios::beg);
 
   m_data = new unsigned char[m_size];

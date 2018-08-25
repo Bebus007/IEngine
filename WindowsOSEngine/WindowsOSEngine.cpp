@@ -74,6 +74,11 @@ IWindow * CWindowsOSEngine::GetWindowInstance()
     return m_pWindowInstance;
 }
 
+void CWindowsOSEngine::Destroy()
+{
+  delete this;
+}
+
 LRESULT CWindowsOSEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   if (!m_pWindowInstance)

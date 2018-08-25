@@ -11,6 +11,8 @@ public:
   virtual IWindow* GetConsoleWindow() override;
   virtual IWindow* GetWindowInstance() override;
 
+  virtual void Destroy() override;
+
   virtual IFile * OpenFile(const char * filename) override;
 
 private:

@@ -28,7 +28,7 @@ void CDirectX11Graphics2D::DrawTriangle(Vertex a, Vertex b, Vertex c)
   if (!pVertexBuffer)
     return;
 
-  float constantBufferData[] = { GetWidth(), GetHeight(), 0, 0 };
+  float constantBufferData[] = { (float)GetWidth(), (float)GetHeight(), 0.0f, 0.0f };
   m_pTestShaderSet->FillConstantBuffer(constantBufferData);
 
   m_pRenderSystem->ApplyShaderSet(m_pTestShaderSet);
@@ -92,7 +92,7 @@ float4 PS(PS_INPUT input) : SV_Target                                           
   finalColor.r = 1.0f;                                                                     \r\n\
   finalColor.a = 1.0f;                                                                     \r\n\
   return finalColor;                                                                       \r\n\
-}                                                                                          \r\n\ " };
+}                                                                                          \r\n " };
 
   static const D3D11_INPUT_ELEMENT_DESC inputElementDescs[] = {
     { "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }

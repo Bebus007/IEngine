@@ -61,6 +61,11 @@ void CDirectX11GraphicsEngine::Swap()
     m_pRenderSystem->SwapBuffers();
 }
 
+void CDirectX11GraphicsEngine::Destroy()
+{
+  delete this;
+}
+
 IGraphics2D * CDirectX11GraphicsEngine::Get2DInterface() { return m_p2DInterface; }
 
 void CDirectX11GraphicsEngine::HandleWindowResize(int newW, int newH)

@@ -22,6 +22,8 @@ public:
   virtual void ClearScreen() override;
   virtual void Swap() override;
 
+  virtual void Destroy() override;
+
   virtual IGraphics2D* Get2DInterface() override;
 
   virtual void HandleWindowResize(int newW, int newH) override;

@@ -10,5 +10,7 @@ public:
   virtual void ClearScreen() = 0;
   virtual void Swap() = 0;
 
+  virtual void Destroy() = 0;
+
   virtual IGraphics2D* Get2DInterface() = 0;
 };

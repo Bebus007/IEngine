@@ -18,6 +18,9 @@ public:
   virtual IKeyboard* GetKeyboard() override;
   virtual IMouse* GetMouse() override;
   virtual IGamepad* GetGamepad() override;
+
+  virtual void Destroy() override;
+
 private:
   const IWindowEx* m_pWindow;
 

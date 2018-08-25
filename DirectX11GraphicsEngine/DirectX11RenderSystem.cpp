@@ -114,13 +114,15 @@ bool CDirectX11RenderSystem::ResizeSwapChain(int width, int height)
 
   // Set up the viewport.
   D3D11_VIEWPORT vp;
-  vp.Width = width;
-  vp.Height = height;
+  vp.Width = (FLOAT)width;
+  vp.Height = (FLOAT)height;
   vp.MinDepth = 0.0f;
   vp.MaxDepth = 1.0f;
   vp.TopLeftX = 0;
   vp.TopLeftY = 0;
   m_pImmediateContext->RSSetViewports(1, &vp);
+
+  return true;
 }
 
 int CDirectX11RenderSystem::GetWidth() const

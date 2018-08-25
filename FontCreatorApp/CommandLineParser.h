@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-static class CCommandLineParser
+class CCommandLineParser
 {
 public:
   struct data_t
