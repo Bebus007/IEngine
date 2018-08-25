@@ -5,6 +5,8 @@
 class IOperatingSystemEngine;
 class IGraphicsEngine;
 class IWindow;
+class IGraphics2D;
+class IFont;
 
 class CApp
 {
@@ -18,4 +20,6 @@ private:
   static IGraphicsEngine* m_pGraphicsEngine;
   static CCommandLineParser::data_t m_InputData;
   static IWindow* m_pWindow;
+  static IGraphics2D* m_pGraphics2D;
+  static IFont* m_pFont;
 };

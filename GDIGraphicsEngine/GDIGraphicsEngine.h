@@ -3,6 +3,7 @@
 #include "IGraphicsEngine.h"
 
 class IWindow;
+class CGDIGraphics2D;
 
 class CGDIGraphicsEngine : public IGraphicsEngine
 {
@@ -23,4 +24,8 @@ private:
   IWindow* m_pWindow;
 
   float m_ClearColor[4];
+
+  HDC m_hDC;
+
+  CGDIGraphics2D* m_pGraphics2D;
 };

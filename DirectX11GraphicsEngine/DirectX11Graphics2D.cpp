@@ -54,6 +54,20 @@ int CDirectX11Graphics2D::GetHeight() const
   return m_pRenderSystem->GetHeight();
 }
 
+IFont * CDirectX11Graphics2D::CreateFontInstance(int height, const char * fontname)
+{
+  return nullptr;
+}
+
+void CDirectX11Graphics2D::DrawText(const Vertex& pos, IFont* font, const char* text)
+{
+}
+
+IGraphics2D::Vertex CDirectX11Graphics2D::GetTextSize(IFont * pFont, const char * text)
+{
+  return Vertex();
+}
+
 void CDirectX11Graphics2D::InitTestShaderSet()
 {
   static const std::string psEntry = "PS";
