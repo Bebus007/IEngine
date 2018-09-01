@@ -1,6 +1,7 @@
 #pragma once
 
 class IFont;
+class IBitmap;
 
 class IGraphics2D
 {
@@ -24,4 +25,6 @@ public:
   virtual IFont* CreateFontInstance(int height, const char* fontname) = 0;
   virtual void DrawText(const Vertex_t& pos, IFont* font, const char* text) = 0;
   virtual Size_t GetTextSize(IFont* pFont, const char* text) = 0;
+
+  virtual IBitmap* CaptureScreen() = 0;
 };
