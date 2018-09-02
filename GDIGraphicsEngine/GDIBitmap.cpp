@@ -1,60 +1,50 @@
 #include "stdafx.h"
 #include "GDIBitmap.h"
 
-CGDIBitmap::CGDIBitmap() : m_hBitmap(nullptr), m_width(0), m_height(0), m_colorBitCount(0u) { }
+CGDIBitmap::CGDIBitmap() : m_bitmap({ 0 }) { }
 
 CGDIBitmap::CGDIBitmap(int width, int height, unsigned int colorBitCount, const void* pBits) : CGDIBitmap()
-{
-  Init(width, height, colorBitCount, pBits);
-}
+{ Init(width, height, colorBitCount, pBits); }
 
-CGDIBitmap::CGDIBitmap(const IBitmap& bmp) : CGDIBitmap()
-{
-  BYTE* pBitsArray = nullptr;
-  LONG byteArraySize = bmp.GetWidth() * bmp.GetHeight() * (bmp.GetColorBitCount() / 8);
-
-  if (byteArraySize > 0)
-  {
-    pBitsArray = new BYTE[byteArraySize];
-    bmp.GetBits(pBitsArray);
-  }
-
-  Init(bmp.GetWidth(), bmp.GetHeight(), bmp.GetColorBitCount(), pBitsArray);
-
-  if (pBitsArray)
-    delete[] pBitsArray;
-}
+CGDIBitmap::CGDIBitmap(const IBitmap& bmp) : CGDIBitmap(bmp.GetWidth(), bmp.GetHeight(), bmp.GetColorBitCount(), bmp.GetBits()) { }
 
 CGDIBitmap::~CGDIBitmap()
 {
-  if (m_hBitmap)
-  {
-    DeleteObject(m_hBitmap);
-    m_hBitmap = nullptr;
-  }
+  if (m_bitmap.bmBits)
+    delete[] m_bitmap.bmBits;
+
+  m_bitmap = { 0 };
 }
 
-void CGDIBitmap::Init(int width, int height, unsigned int colorBitCount, const void * pBits)
+void CGDIBitmap::Init(int width, int height, unsigned int colorBitCount, const void* pBits)
 {
-  if (m_hBitmap)
-  {
-    DeleteObject(m_hBitmap);
-    m_hBitmap = nullptr;
-  }
+  if (m_bitmap.bmBits)
+    delete[] m_bitmap.bmBits;
 
-  m_width = width, m_height = height, m_colorBitCount = colorBitCount;
+  m_bitmap = { 0 };
+
+  m_bitmap.bmWidth = width, m_bitmap.bmHeight = height, m_bitmap.bmBitsPixel = colorBitCount;
+  m_bitmap.bmPlanes = 1;
+  m_bitmap.bmType = 0;
+  m_bitmap.bmWidthBytes = width * colorBitCount / 8;
 
   if (IsValid())
-    m_hBitmap = CreateBitmap(m_width, m_height, 1u, m_colorBitCount, pBits);
+  {
+    int dataSize = GetDataSize();
+    void* pDataCopy = new BYTE[dataSize];
+    memcpy(pDataCopy, pBits, dataSize);
+    m_bitmap.bmBits = pDataCopy;
+    pDataCopy = nullptr;
+  }
 }
 
 bool CGDIBitmap::IsValid() const { return GetWidth() > 0 && GetHeight() > 0 && GetColorBitCount() > 0; }
 
-int CGDIBitmap::GetWidth() const { return m_width; }
+int CGDIBitmap::GetWidth() const { return m_bitmap.bmWidth; }
 
-int CGDIBitmap::GetHeight() const { return m_height; }
+int CGDIBitmap::GetHeight() const { return m_bitmap.bmHeight; }
 
-unsigned int CGDIBitmap::GetColorBitCount() const { return m_colorBitCount; }
+unsigned int CGDIBitmap::GetColorBitCount() const { return m_bitmap.bmBitsPixel; }
 
 void CGDIBitmap::Resize(int width, int height, void* pData)
 {
@@ -68,45 +58,19 @@ void CGDIBitmap::Resize(int width, int height, void* pData)
     return;
 
   IBitmap* regionBitmap = CreateRegionCopy(0, 0, width, height);
-  BYTE* pOldData = nullptr;
-  if (regionBitmap && regionBitmap->GetDataSize())
-  {
-    pOldData = new BYTE[regionBitmap->GetDataSize()];
-    regionBitmap->GetBits(pOldData);
-  }
+  const void* pOldData = regionBitmap->GetBits();
+  if (regionBitmap)
+    pOldData = regionBitmap->GetBits();
 
-  if (pOldData)
-    Init(width, height, GetColorBitCount(), pOldData);
+  Init(width, height, GetColorBitCount(), pOldData);
 
-  if (pOldData)
-    delete[] pOldData;
   if (regionBitmap)
     regionBitmap->Destroy();
 }
 
-int CGDIBitmap::GetDataSize() const
-{
-  return GetWidth() * GetHeight() * (GetColorBitCount() / 8);
-}
+int CGDIBitmap::GetDataSize() const { return m_bitmap.bmWidthBytes * GetHeight(); }
 
-void CGDIBitmap::GetBits(void* pArray) const
-{
-  if (!IsValid() || !pArray)
-    return;
-
-  LONG byteArraySize = GetDataSize();
-
-#if _DEBUG
-  LONG bytesTransfered = 
-#endif
-
-    GetBitmapBits(m_hBitmap, byteArraySize, pArray);
-
-#if _DEBUG
-  if (bytesTransfered != byteArraySize)
-    DebugBreak();
-#endif
-}
+const void* CGDIBitmap::GetBits() const { return m_bitmap.bmBits; }
 
 void CGDIBitmap::SetBits(const void* pArray)
 {
@@ -115,16 +79,7 @@ void CGDIBitmap::SetBits(const void* pArray)
 
   LONG byteArraySize = GetDataSize();
 
-#if _DEBUG
-  LONG bytesTransfered =
-#endif
-
-  SetBitmapBits(m_hBitmap, byteArraySize, pArray);
-
-#if _DEBUG
-  if (bytesTransfered != byteArraySize)
-    DebugBreak();
-#endif
+  memcpy(m_bitmap.bmBits, pArray, byteArraySize);
 }
 
 IBitmap * CGDIBitmap::CreateRegionCopy(int x, int y, int width, int height) const
@@ -140,8 +95,7 @@ IBitmap * CGDIBitmap::CreateRegionCopy(int x, int y, int width, int height) cons
   int myDataSize = GetDataSize();
   if (myDataSize)
   {
-    BYTE* myData = new BYTE[myDataSize];
-    GetBits(myData);
+    const BYTE* myData = (const BYTE*)GetBits();
 
     for (int i = y; i < y + height; i++)
     {
@@ -154,8 +108,6 @@ IBitmap * CGDIBitmap::CreateRegionCopy(int x, int y, int width, int height) cons
           newData[newPixelIdx * pixelSize + k] = myData[myPixelIdx * pixelSize + k];
       }
     }
-
-    delete[] myData;
   }
 
   IBitmap* result = new CGDIBitmap(width, height, GetColorBitCount(), newData);
@@ -164,5 +116,3 @@ IBitmap * CGDIBitmap::CreateRegionCopy(int x, int y, int width, int height) cons
 }
 
 void CGDIBitmap::Destroy() { delete this; }
-
-HBITMAP CGDIBitmap::GetBitmapHandle() { return m_hBitmap; }

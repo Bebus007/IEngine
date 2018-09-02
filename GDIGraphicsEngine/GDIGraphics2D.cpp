@@ -117,7 +117,7 @@ IBitmap* CGDIGraphics2D::CaptureScreen()
   BITMAP bmpScreen;
   GetObject(hbmScreen, sizeof(BITMAP), &bmpScreen);
 
-  IBitmap* result = new CGDIBitmap(bmpScreen.bmWidth, bmpScreen.bmHeight, bmpScreen.bmBitsPixel, bmpScreen.bmBits);
+  IBitmap* result = new CGDIBitmap(bmpScreen);
 
   DeleteObject(hdcMemDC);
   DeleteObject(hbmScreen);

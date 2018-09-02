@@ -8,6 +8,7 @@ public:
   CGDIBitmap();
   CGDIBitmap(int width, int height, unsigned int colorBitCount, const void* pBits = nullptr);
   CGDIBitmap(const IBitmap&);
+  CGDIBitmap(const BITMAP&);
   ~CGDIBitmap();
 
   void Init(int width, int height, unsigned int colorBitCount, const void* pBits = nullptr);
@@ -21,17 +22,13 @@ public:
   virtual void Resize(int width, int height, void* data = nullptr) override;
 
   virtual int GetDataSize() const override;
-  virtual void GetBits(void*) const override;
+  virtual const void* GetBits() const override;
   virtual void SetBits(const void*) override;
 
   virtual IBitmap* CreateRegionCopy(int x, int y, int width, int height) const override;
 
   virtual void Destroy() override;
 
-  HBITMAP GetBitmapHandle();
-
 private:
-  int m_width, m_height;
-  unsigned int m_colorBitCount;
-  HBITMAP m_hBitmap;
+  BITMAP m_bitmap;
 };
