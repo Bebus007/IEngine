@@ -16,6 +16,10 @@ public:
   virtual void DrawText(const Vertex_t& pos, IFont* font, const char* text) override;
   virtual Size_t GetTextSize(IFont* pFont, const char* text) override;
 
+  virtual IBitmap* CaptureScreen() override;
+
 private:
+  HDC GetDrawingContext() const;
+
   HDC m_hDC;
 };

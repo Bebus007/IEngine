@@ -68,6 +68,11 @@ IGraphics2D::Size_t CDirectX11Graphics2D::GetTextSize(IFont * pFont, const char 
   return Size_t();
 }
 
+IBitmap * CDirectX11Graphics2D::CaptureScreen()
+{
+  return nullptr;
+}
+
 void CDirectX11Graphics2D::InitTestShaderSet()
 {
   static const std::string psEntry = "PS";

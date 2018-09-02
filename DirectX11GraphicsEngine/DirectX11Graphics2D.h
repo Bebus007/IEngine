@@ -20,6 +20,8 @@ public:
   virtual IFont* CreateFontInstance(int height, const char* fontname) override;
   virtual void DrawText(const Vertex_t& pos, IFont* font, const char* text) override;
   virtual Size_t GetTextSize(IFont* pFont, const char* text) override;
+
+  virtual IBitmap* CaptureScreen() override;
 private:
   CDirectX11RenderSystem * m_pRenderSystem;
 
