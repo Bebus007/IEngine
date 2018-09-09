@@ -1,7 +1,8 @@
 #pragma once
 
-class IFont
+#include "IEngineObject.h"
+
+class IFont : public IEngineObject
 {
 public:
-  virtual void Destroy() = 0;
 };

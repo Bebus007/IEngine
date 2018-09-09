@@ -1,6 +1,8 @@
 #pragma once
 
-class IBitmap
+#include "IEngineObject.h"
+
+class IBitmap : public IEngineObject
 {
 public:
   virtual int GetWidth() const = 0;
@@ -16,6 +18,4 @@ public:
   virtual IBitmap* CreateRegionCopy(int x, int y, int width, int height) const = 0;
 
   virtual void Save(const char* filename) = 0;
-
-  virtual void Destroy() = 0;
 };

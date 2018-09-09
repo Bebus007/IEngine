@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IEngineObject.h"
+
 class IGraphics2D;
 
 class IGraphicsEngine
@@ -9,8 +11,6 @@ public:
   virtual void SetClearColor(float r, float g, float b, float a = 1.0f) = 0;
   virtual void ClearScreen() = 0;
   virtual void Swap() = 0;
-
-  virtual void Destroy() = 0;
 
   virtual IGraphics2D* Get2DInterface() = 0;
 };

@@ -31,6 +31,12 @@ CCommandLineParser::data_t CCommandLineParser::Parse(std::vector<std::string>& a
       result.outFileName = GetStringValue(*it);
       break;
     }
+    case CCommandLineParser::AT_FONT_HEIGHT:
+    {
+      it++;
+      result.fontHeight = GetIntegerValue(*it);
+      break;
+    }
     case CCommandLineParser::AT_UNDEFINED:
     default:
       break;
@@ -46,6 +52,8 @@ CCommandLineParser::ArgumentType_e CCommandLineParser::GetArgumentType(const std
     return AT_FONT_NAME;
   if (argument == "-outfile")
     return AT_OUT_FILENAME;
+  if (argument == "-fontheight")
+    return AT_FONT_HEIGHT;
 
   return AT_UNDEFINED;
 }
@@ -53,4 +61,9 @@ CCommandLineParser::ArgumentType_e CCommandLineParser::GetArgumentType(const std
 std::string CCommandLineParser::GetStringValue(const std::string& value)
 {
   return value;
+}
+
+int CCommandLineParser::GetIntegerValue(const std::string & value)
+{
+  return atoi(value.c_str());
 }

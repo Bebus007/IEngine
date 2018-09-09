@@ -148,6 +148,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="IBitmap.h" />
+    <ClInclude Include="IBitmapFont.h" />
+    <ClInclude Include="IEngineObject.h" />
     <ClInclude Include="IFont.h" />
     <ClInclude Include="IGraphics2D.h" />
     <ClInclude Include="IEngine.h" />
