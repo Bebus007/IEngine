@@ -5,6 +5,7 @@
 #include "IWindow.h"
 #include "IGraphicsEngine.h"
 #include "IGraphics2D.h"
+#include "IBitmap.h"
 
 #include "CommandLineParser.h"
 
@@ -65,13 +66,42 @@ void CApp::Run()
         val[0] = (char)(i * 32 + j);
 
         IGraphics2D::Size_t size = m_pGraphics2D->GetTextSize(m_pFont, val);
-        offsetX += size.X;
 
         m_pGraphics2D->DrawText(IGraphics2D::Vertex_t(offsetX, offsetY), m_pFont, val);
+
+        offsetX += size.X;
       }
 
       offsetY += textSize;
     }
+
+    IBitmap* pBitmap = m_pGraphics2D->CaptureScreen();
+
+    offsetX = offsetY = 0.0f;
+    for (int i = 0; i < 8; i++)
+    {
+      offsetX = 0;
+
+      for (int j = 0; j < 32; j++)
+      {
+        val[0] = (char)(i * 32 + j);
+
+        IGraphics2D::Size_t size = m_pGraphics2D->GetTextSize(m_pFont, val);
+
+        if (size.X > 0 && size.Y > 0)
+        {
+          IBitmap* pSubBmp = pBitmap->CreateRegionCopy(offsetX, offsetY, size.X, size.Y);
+          pSubBmp->Save("D:\\test.bmp");
+          pSubBmp->Destroy();
+        }
+
+        offsetX += size.X;
+      }
+
+      offsetY += textSize;
+    }
+
+    pBitmap->Destroy();
   }
 }
 

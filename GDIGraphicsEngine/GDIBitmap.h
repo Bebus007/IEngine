@@ -18,6 +18,9 @@ public:
   virtual int GetWidth() const override;
   virtual int GetHeight() const override;
   virtual unsigned int GetColorBitCount() const override;
+  WORD GetPlanesCount() const;
+  LONG GetWidthBytes() const;
+  void* GetBits();
 
   virtual void Resize(int width, int height, void* data = nullptr) override;
 
@@ -27,8 +30,16 @@ public:
 
   virtual IBitmap* CreateRegionCopy(int x, int y, int width, int height) const override;
 
+  virtual void Save(const char* filename) override;
+
   virtual void Destroy() override;
 
 private:
+
+  void HMirror();
+
+  PBITMAPINFO CreateInfo() const;
+  BITMAPFILEHEADER CreateFileHeader() const;
+
   BITMAP m_bitmap;
 };

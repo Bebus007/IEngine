@@ -15,5 +15,7 @@ public:
 
   virtual IBitmap* CreateRegionCopy(int x, int y, int width, int height) const = 0;
 
+  virtual void Save(const char* filename) = 0;
+
   virtual void Destroy() = 0;
 };
