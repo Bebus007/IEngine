@@ -3,7 +3,7 @@
 
 #include <memory>
 
-CWAVFile::CWAVFile(const char * filename) : CFile(filename)
+CWAVFile::CWAVFile(const std::string& filename) : CFile(filename)
 {
   size_t headerSize = sizeof(WaveHeader_t);
 
@@ -13,8 +13,8 @@ CWAVFile::CWAVFile(const char * filename) : CFile(filename)
   if (CFile::GetFileSize() < headerSize)
     return;
 
-  memcpy(&m_header, CFile::GetFileData(), headerSize);
-  m_WAVData = CFile::GetFileData() + headerSize;
+  memcpy(&m_header, &CFile::GetFileData(), headerSize);
+  m_WAVData = &CFile::GetFileData() + headerSize;
 }
 
 const char * CWAVFile::GetChunkID() const
@@ -85,4 +85,9 @@ unsigned long CWAVFile::GetSubChunk2Size() const
 const void * CWAVFile::GetWAVDataPointer() const
 {
   return m_WAVData;
+}
+
+void CWAVFile::Destroy()
+{
+  delete this;
 }

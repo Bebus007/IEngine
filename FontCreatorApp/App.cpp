@@ -6,6 +6,7 @@
 #include "IGraphicsEngine.h"
 #include "IGraphics2D.h"
 #include "IBitmap.h"
+#include "IBitmapFile.h"
 
 #include "CommandLineParser.h"
 
@@ -40,6 +41,7 @@ void CApp::Init(int argc, const char * argv[])
   m_pFont = m_pGraphics2D->CreateFontInstance(textSize, "Consolas");
   if (!m_pFont)
     return;
+
 }
 
 void CApp::Run()
@@ -91,8 +93,23 @@ void CApp::Run()
         if (size.X > 0 && size.Y > 0)
         {
           IBitmap* pSubBmp = pBitmap->CreateRegionCopy(offsetX, offsetY, size.X, size.Y);
-          pSubBmp->Save("D:\\test.bmp");
+          pSubBmp->HMirror();
+
+          IFile* pFile = m_pOSEngine->OpenFile("D:\\image.bmp");
+          if (!pFile)
+            return;
+
+          IBitmapFile* pBitmapFile = dynamic_cast<IBitmapFile*>(pFile);
+          pBitmapFile->Clear();
+          pBitmapFile->SetBitmapWidth(pSubBmp->GetWidth());
+          pBitmapFile->SetBitmapHeight(pSubBmp->GetHeight());
+          pBitmapFile->SetBitmapColorBitCount(pSubBmp->GetColorBitCount());
+          pBitmapFile->SetBitmapPlanesCount(1);
+          pBitmapFile->SetBitmapData(pSubBmp->GetBits());
+
           pSubBmp->Destroy();
+
+          pFile->Destroy();
         }
 
         offsetX += size.X;

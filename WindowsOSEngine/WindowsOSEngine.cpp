@@ -5,6 +5,7 @@
 
 #include "File.h"
 #include "WAVFile.h"
+#include "BitmapFile.h"
 
 #include <tchar.h>
 #include <string>
@@ -97,6 +98,10 @@ IFile * CWindowsOSEngine::OpenFile(const char * filename)
   if (sExtensionString == "WAV")
   {
     return new CWAVFile(filename);
+  }
+  else if (sExtensionString == "BMP")
+  {
+    return new CBitmapFile(filename);
   }
   else
     return new CFile(filename);

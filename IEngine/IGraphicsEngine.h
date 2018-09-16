@@ -4,7 +4,7 @@
 
 class IGraphics2D;
 
-class IGraphicsEngine
+class IGraphicsEngine : public IEngineObject
 {
 public:
   virtual bool Init(int width = 640, int height = 480, bool fullscreen = false) = 0;

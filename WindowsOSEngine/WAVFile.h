@@ -6,7 +6,7 @@
 class CWAVFile : public CFile, virtual public IWAVFile
 {
 public:
-  CWAVFile(const char* filename);
+  CWAVFile(const std::string& filename);
 
   virtual const char* GetChunkID() const override;
 
@@ -35,6 +35,8 @@ public:
   virtual unsigned long GetSubChunk2Size() const override;
 
   virtual const void* GetWAVDataPointer() const override;
+
+  virtual void Destroy() override;
 
 private:
   struct WaveHeader_t
