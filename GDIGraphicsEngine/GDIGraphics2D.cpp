@@ -12,6 +12,34 @@ void CGDIGraphics2D::DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c)
 {
 }
 
+void CGDIGraphics2D::DrawBitmap(const Vertex_t& pos, const IBitmap* pBitmap)
+{
+  if (!pBitmap)
+    return;
+
+  HDC hDC = GetDrawingContext();
+  if (!hDC)
+    return;
+
+  HDC hMemDC = CreateCompatibleDC(hDC);
+  if (hMemDC)
+  {
+    HBITMAP bitmap = CreateBitmap(pBitmap->GetWidth(), pBitmap->GetHeight(), 1, pBitmap->GetColorBitCount(), pBitmap->GetBits());
+    if (bitmap)
+    {
+      HGDIOBJ oldbmp = SelectObject(hMemDC, bitmap); //<<<<save it for later ...
+
+      // Copy the bits from the memory DC into the current dc
+      BOOL res = BitBlt(hDC, pos.X, pos.Y, pBitmap->GetWidth(), pBitmap->GetHeight(), hMemDC, 0, 0, SRCCOPY);
+
+      // Restore the old bitmap
+      SelectObject(hMemDC, oldbmp);
+      DeleteObject(bitmap);
+    }
+    DeleteDC(hMemDC);
+  }
+}
+
 int CGDIGraphics2D::GetWidth() const
 {
   return GetDeviceCaps(GetDrawingContext(), HORZRES);
@@ -133,6 +161,11 @@ IBitmap* CGDIGraphics2D::CaptureScreen()
   DeleteObject(hbmScreen);
 
   return result;
+}
+
+IBitmap * CGDIGraphics2D::CreateEmptyBitmap()
+{
+  return new CGDIBitmap();
 }
 
 HDC CGDIGraphics2D::GetDrawingContext() const { return m_hDC; }

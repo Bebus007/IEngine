@@ -56,7 +56,7 @@ void CApp::Run()
 
   while (m_pWindow->Idle())
   {
-    char val[2] = { 0, 0 };
+    /*char val[2] = { 0, 0 };
     float offsetX, offsetY;
     offsetX = offsetY = 0.0f;
     for (int i = 0; i < 8; i++)
@@ -75,9 +75,24 @@ void CApp::Run()
       }
 
       offsetY += textSize;
-    }
+    }*/
+    
+    /*IBitmap* pBitmap = m_pGraphics2D->CaptureScreen();
+    pBitmap->HMirror();
 
-    IBitmap* pBitmap = m_pGraphics2D->CaptureScreen();
+    IFile* pFile = m_pOSEngine->OpenFile("D:\\image.bmp");
+    if (!pFile)
+      return;
+
+    IBitmapFile* pBitmapFile = dynamic_cast<IBitmapFile*>(pFile);
+    pBitmapFile->Clear();
+    pBitmapFile->SetBitmapWidth(pBitmap->GetWidth());
+    pBitmapFile->SetBitmapHeight(pBitmap->GetHeight());
+    pBitmapFile->SetBitmapColorBitCount(pBitmap->GetColorBitCount());
+    pBitmapFile->SetBitmapPlanesCount(1);
+    pBitmapFile->SetBitmapData(pBitmap->GetBits());
+
+    pFile->Destroy();
 
     offsetX = offsetY = 0.0f;
     for (int i = 0; i < 8; i++)
@@ -95,21 +110,7 @@ void CApp::Run()
           IBitmap* pSubBmp = pBitmap->CreateRegionCopy(offsetX, offsetY, size.X, size.Y);
           pSubBmp->HMirror();
 
-          IFile* pFile = m_pOSEngine->OpenFile("D:\\image.bmp");
-          if (!pFile)
-            return;
-
-          IBitmapFile* pBitmapFile = dynamic_cast<IBitmapFile*>(pFile);
-          pBitmapFile->Clear();
-          pBitmapFile->SetBitmapWidth(pSubBmp->GetWidth());
-          pBitmapFile->SetBitmapHeight(pSubBmp->GetHeight());
-          pBitmapFile->SetBitmapColorBitCount(pSubBmp->GetColorBitCount());
-          pBitmapFile->SetBitmapPlanesCount(1);
-          pBitmapFile->SetBitmapData(pSubBmp->GetBits());
-
           pSubBmp->Destroy();
-
-          pFile->Destroy();
         }
 
         offsetX += size.X;
@@ -118,10 +119,51 @@ void CApp::Run()
       offsetY += textSize;
     }
 
-    pBitmap->Destroy();
+    pBitmap->Destroy();*/
   }
 }
 
 void CApp::Destroy()
 {
+}
+
+void CApp::DrawImage(const char * pFilename)
+{
+  IFile* pFile = m_pOSEngine->OpenFile(pFilename);
+  if (!pFile)
+    return;
+
+  IBitmapFile* pBitmapFile = dynamic_cast<IBitmapFile*>(pFile);
+  if (pBitmapFile)
+  {
+    IBitmap* pBitmap = m_pGraphics2D->CreateEmptyBitmap();
+    pBitmap->Resize(pBitmapFile->GetBitmapWidth(), pBitmapFile->GetBitmapHeight(), pBitmapFile->GetBitmapColorBitCount(), pBitmapFile->GetBitmapData());
+    pBitmap->HMirror();
+    m_pGraphics2D->DrawBitmap({ 0, 0 }, pBitmap);
+    pBitmap->Destroy();
+  }
+
+  pFile->Destroy();
+}
+
+void CApp::SaveScreenShot(const char * filename)
+{
+  IBitmap* pBitmap = m_pGraphics2D->CaptureScreen();
+  pBitmap->HMirror();
+
+  IFile* pFile = m_pOSEngine->OpenFile("D:\\image.bmp");
+  if (!pFile)
+    return;
+
+  IBitmapFile* pBitmapFile = dynamic_cast<IBitmapFile*>(pFile);
+  pBitmapFile->Clear();
+  pBitmapFile->SetBitmapWidth(pBitmap->GetWidth());
+  pBitmapFile->SetBitmapHeight(pBitmap->GetHeight());
+  pBitmapFile->SetBitmapColorBitCount(pBitmap->GetColorBitCount());
+  pBitmapFile->SetBitmapPlanesCount(1);
+  pBitmapFile->SetBitmapData(pBitmap->GetBits());
+
+  pFile->Destroy();
+
+  pBitmap->Destroy();
 }

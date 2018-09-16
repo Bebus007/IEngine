@@ -9,7 +9,8 @@ public:
   virtual int GetHeight() const = 0;
   virtual unsigned int GetColorBitCount() const = 0;
 
-  virtual void Resize(int width, int height, void* data = nullptr) = 0;
+  virtual void Resize(int width, int height, int colorBitCount, const void* data = nullptr) = 0;
+  virtual void HMirror() = 0;
 
   virtual int GetDataSize() const = 0;
   virtual const void* GetBits() const = 0;
@@ -17,5 +18,5 @@ public:
 
   virtual IBitmap* CreateRegionCopy(int x, int y, int width, int height) const = 0;
 
-  virtual void Save(const char* filename) = 0;
+  virtual IBitmap* CreateCopy() const { return CreateRegionCopy(0, 0, GetWidth(), GetHeight()); }
 };

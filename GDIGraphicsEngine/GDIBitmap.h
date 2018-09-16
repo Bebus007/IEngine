@@ -22,7 +22,8 @@ public:
   LONG GetWidthBytes() const;
   void* GetBits();
 
-  virtual void Resize(int width, int height, void* data = nullptr) override;
+  virtual void Resize(int width, int height, int colorBitCount, const void* data = nullptr) override;
+  virtual void HMirror() override;
 
   virtual int GetDataSize() const override;
   virtual const void* GetBits() const override;
@@ -30,16 +31,9 @@ public:
 
   virtual IBitmap* CreateRegionCopy(int x, int y, int width, int height) const override;
 
-  virtual void Save(const char* filename) override;
-
   virtual void Destroy() override;
 
 private:
-
-  void HMirror();
-
-  PBITMAPINFO CreateInfo() const;
-  BITMAPFILEHEADER CreateFileHeader() const;
 
   BITMAP m_bitmap;
 };

@@ -22,4 +22,7 @@ private:
   static IWindow* m_pWindow;
   static IGraphics2D* m_pGraphics2D;
   static IFont* m_pFont;
+
+  void DrawImage(const char* filename);
+  void SaveScreenShot(const char* filename);
 };

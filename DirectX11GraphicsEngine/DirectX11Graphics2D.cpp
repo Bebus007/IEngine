@@ -38,6 +38,11 @@ void CDirectX11Graphics2D::DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c)
   pVertexBuffer->Release();
 }
 
+void CDirectX11Graphics2D::DrawBitmap(const Vertex_t& pos, const IBitmap* bitmap)
+{
+  DebugBreak();
+}
+
 int CDirectX11Graphics2D::GetWidth() const
 {
   if (!m_pRenderSystem)
@@ -69,6 +74,11 @@ IGraphics2D::Size_t CDirectX11Graphics2D::GetTextSize(IFont * pFont, const char 
 }
 
 IBitmap * CDirectX11Graphics2D::CaptureScreen()
+{
+  return nullptr;
+}
+
+IBitmap * CDirectX11Graphics2D::CreateEmptyBitmap()
 {
   return nullptr;
 }
