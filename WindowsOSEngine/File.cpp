@@ -45,8 +45,8 @@ void CFile::Load()
   inp.seekg(0, ios::beg);
 
   m_data.clear();
-  m_data.reserve(size);
-  m_data.assign((std::istreambuf_iterator<char>(inp)), std::istreambuf_iterator<char>());
+  m_data.resize(size);
+  inp.read((char*)&m_data[0], size);
 }
 
 void CFile::Unload()
@@ -87,22 +87,15 @@ void CFile::ResizeChunk(size_t startPos, size_t endPos, size_t newSize)
     size_t backSize = oldSize - endPos;
     if (backSize > 0)
     {
-      back.reserve(backSize);
-      for (size_t i = endPos; i < oldSize; i++)
-        back.push_back(m_data[i]);
+      back.resize(backSize);
+      memcpy(&back[0], &m_data[endPos], backSize);
     }
   }
 
   Resize(oldSize + sizeDiff);
 
   if (!back.empty())
-  {
-    for (size_t i = 0; i < back.size(); i++)
-    {
-      size_t j = endPos + sizeDiff + i;
-      m_data[j] = back[i];
-    }
-  }
+    memcpy(&m_data[endPos + sizeDiff], &back[0], back.size());
 }
 
 void CFile::Resize(size_t newSize)
@@ -114,10 +107,7 @@ void CFile::Resize(size_t newSize)
 
   m_data.resize(newSize);
   if (oldSize < newSize)
-  {
-    for (size_t i = oldSize; i < newSize; i++)
-      m_data[i] = 0;
-  }
+    memset(&m_data[oldSize], 0, newSize - oldSize);
 
   SetModified(true);
 }
