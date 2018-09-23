@@ -38,7 +38,7 @@ void CDirectX11Graphics2D::DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c)
   pVertexBuffer->Release();
 }
 
-void CDirectX11Graphics2D::DrawBitmap(const Vertex_t& pos, const IImage* bitmap)
+void CDirectX11Graphics2D::DrawImage(const Vertex_t& pos, const IImage* bitmap)
 {
   DebugBreak();
 }
@@ -78,7 +78,7 @@ IImage * CDirectX11Graphics2D::CaptureScreen()
   return nullptr;
 }
 
-IImage * CDirectX11Graphics2D::CreateEmptyBitmap()
+IImage * CDirectX11Graphics2D::CreateEmptyImage()
 {
   return nullptr;
 }

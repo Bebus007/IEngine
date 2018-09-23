@@ -13,7 +13,7 @@ public:
   ~CDirectX11Graphics2D();
 
   virtual void DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c) override;
-  virtual void DrawBitmap(const Vertex_t& pos, const IImage* bitmap) override;
+  virtual void DrawImage(const Vertex_t& pos, const IImage* bitmap) override;
 
   virtual int GetWidth() const override;
   virtual int GetHeight() const override;
@@ -23,7 +23,7 @@ public:
   virtual Size_t GetTextSize(IFont* pFont, const char* text) override;
 
   virtual IImage* CaptureScreen() override;
-  virtual IImage* CreateEmptyBitmap() override;
+  virtual IImage* CreateEmptyImage() override;
 private:
   CDirectX11RenderSystem * m_pRenderSystem;
 

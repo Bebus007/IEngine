@@ -12,7 +12,7 @@ void CGDIGraphics2D::DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c)
 {
 }
 
-void CGDIGraphics2D::DrawBitmap(const Vertex_t& pos, const IImage* pBitmap)
+void CGDIGraphics2D::DrawImage(const Vertex_t& pos, const IImage* pBitmap)
 {
   if (!pBitmap)
     return;
@@ -163,7 +163,7 @@ IImage* CGDIGraphics2D::CaptureScreen()
   return result;
 }
 
-IImage * CGDIGraphics2D::CreateEmptyBitmap()
+IImage * CGDIGraphics2D::CreateEmptyImage()
 {
   return new CGDIImage();
 }
