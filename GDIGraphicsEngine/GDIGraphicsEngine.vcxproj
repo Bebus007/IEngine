@@ -151,7 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GDIBitmap.h" />
+    <ClInclude Include="GDIImage.h" />
     <ClInclude Include="GDIFont.h" />
     <ClInclude Include="GDIGraphics2D.h" />
     <ClInclude Include="GDIGraphicsEngine.h" />
@@ -159,7 +159,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GDIBitmap.cpp" />
+    <ClCompile Include="GDIImage.cpp" />
     <ClCompile Include="GDIFont.cpp" />
     <ClCompile Include="GDIGraphics2D.cpp" />
     <ClCompile Include="GDIGraphicsEngine.cpp" />

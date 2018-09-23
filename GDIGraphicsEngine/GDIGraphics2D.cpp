@@ -2,7 +2,7 @@
 #include "GDIGraphics2D.h"
 
 #include "GDIFont.h"
-#include "GDIBitmap.h"
+#include "GDIImage.h"
 
 CGDIGraphics2D::CGDIGraphics2D(HDC hDC) : m_hDC(hDC)
 {
@@ -12,7 +12,7 @@ void CGDIGraphics2D::DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c)
 {
 }
 
-void CGDIGraphics2D::DrawBitmap(const Vertex_t& pos, const IBitmap* pBitmap)
+void CGDIGraphics2D::DrawBitmap(const Vertex_t& pos, const IImage* pBitmap)
 {
   if (!pBitmap)
     return;
@@ -114,7 +114,7 @@ IGraphics2D::Size_t CGDIGraphics2D::GetTextSize(IFont* pFont, const char* text)
   return Size_t((float)textSize.cx, (float)textSize.cy);
 }
 
-IBitmap* CGDIGraphics2D::CaptureScreen()
+IImage* CGDIGraphics2D::CaptureScreen()
 {
   HDC hdcMemDC = nullptr;
   HBITMAP hbmScreen = nullptr;
@@ -152,7 +152,7 @@ IBitmap* CGDIGraphics2D::CaptureScreen()
     GetBitmapBits(hbmScreen, bytesCount, bmpScreen.bmBits);
   }
 
-  IBitmap* result = new CGDIBitmap(bmpScreen);
+  IImage* result = new CGDIImage(bmpScreen);
 
   if (bmpScreen.bmBits)
     delete bmpScreen.bmBits;
@@ -163,9 +163,9 @@ IBitmap* CGDIGraphics2D::CaptureScreen()
   return result;
 }
 
-IBitmap * CGDIGraphics2D::CreateEmptyBitmap()
+IImage * CGDIGraphics2D::CreateEmptyBitmap()
 {
-  return new CGDIBitmap();
+  return new CGDIImage();
 }
 
 HDC CGDIGraphics2D::GetDrawingContext() const { return m_hDC; }

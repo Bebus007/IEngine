@@ -5,7 +5,7 @@
 #include "IWindow.h"
 #include "IGraphicsEngine.h"
 #include "IGraphics2D.h"
-#include "IBitmap.h"
+#include "IImage.h"
 #include "IBitmapFile.h"
 
 #include "CommandLineParser.h"
@@ -77,7 +77,7 @@ void CApp::Run()
       offsetY += textSize;
     }*/
     
-    /*IBitmap* pBitmap = m_pGraphics2D->CaptureScreen();
+    /*IImage* pBitmap = m_pGraphics2D->CaptureScreen();
     pBitmap->HMirror();
 
     IFile* pFile = m_pOSEngine->OpenFile("D:\\image.bmp");
@@ -107,7 +107,7 @@ void CApp::Run()
 
         if (size.X > 0 && size.Y > 0)
         {
-          IBitmap* pSubBmp = pBitmap->CreateRegionCopy(offsetX, offsetY, size.X, size.Y);
+          IImage* pSubBmp = pBitmap->CreateRegionCopy(offsetX, offsetY, size.X, size.Y);
           pSubBmp->HMirror();
 
           pSubBmp->Destroy();
@@ -136,7 +136,7 @@ void CApp::DrawImage(const char * pFilename)
   IBitmapFile* pBitmapFile = dynamic_cast<IBitmapFile*>(pFile);
   if (pBitmapFile)
   {
-    IBitmap* pBitmap = m_pGraphics2D->CreateEmptyBitmap();
+    IImage* pBitmap = m_pGraphics2D->CreateEmptyBitmap();
     pBitmap->Resize(pBitmapFile->GetBitmapWidth(), pBitmapFile->GetBitmapHeight(), pBitmapFile->GetBitmapColorBitCount(), pBitmapFile->GetBitmapData());
     pBitmap->HMirror();
     m_pGraphics2D->DrawBitmap({ 0, 0 }, pBitmap);
@@ -148,7 +148,7 @@ void CApp::DrawImage(const char * pFilename)
 
 void CApp::SaveScreenShot(const char * filename)
 {
-  IBitmap* pBitmap = m_pGraphics2D->CaptureScreen();
+  IImage* pBitmap = m_pGraphics2D->CaptureScreen();
   pBitmap->HMirror();
 
   IFile* pFile = m_pOSEngine->OpenFile("D:\\image.bmp");

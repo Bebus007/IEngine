@@ -2,7 +2,7 @@
 
 #include "IEngineObject.h"
 
-class IBitmap : public IEngineObject
+class IImage : public IEngineObject
 {
 public:
   virtual int GetWidth() const = 0;
@@ -16,7 +16,7 @@ public:
   virtual const void* GetBits() const = 0;
   virtual void SetBits(const void*) = 0;
 
-  virtual IBitmap* CreateRegionCopy(int x, int y, int width, int height) const = 0;
+  virtual IImage* CreateRegionCopy(int x, int y, int width, int height) const = 0;
 
-  virtual IBitmap* CreateCopy() const { return CreateRegionCopy(0, 0, GetWidth(), GetHeight()); }
+  virtual IImage* CreateCopy() const { return CreateRegionCopy(0, 0, GetWidth(), GetHeight()); }
 };

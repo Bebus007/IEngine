@@ -1,15 +1,15 @@
 #pragma once
 
-#include "IBitmap.h"
+#include "IImage.h"
 
-class CGDIBitmap : public IBitmap
+class CGDIImage : public IImage
 {
 public:
-  CGDIBitmap();
-  CGDIBitmap(int width, int height, unsigned int colorBitCount, const void* pBits = nullptr);
-  CGDIBitmap(const IBitmap&);
-  CGDIBitmap(const BITMAP&);
-  ~CGDIBitmap();
+  CGDIImage();
+  CGDIImage(int width, int height, unsigned int colorBitCount, const void* pBits = nullptr);
+  CGDIImage(const IImage&);
+  CGDIImage(const BITMAP&);
+  ~CGDIImage();
 
   void Init(int width, int height, unsigned int colorBitCount, const void* pBits = nullptr);
 
@@ -29,7 +29,7 @@ public:
   virtual const void* GetBits() const override;
   virtual void SetBits(const void*) override;
 
-  virtual IBitmap* CreateRegionCopy(int x, int y, int width, int height) const override;
+  virtual IImage* CreateRegionCopy(int x, int y, int width, int height) const override;
 
   virtual void Destroy() override;
 

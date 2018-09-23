@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "GDIBitmap.h"
+#include "GDIImage.h"
 
-CGDIBitmap::CGDIBitmap() : m_bitmap({ 0 }) { }
+CGDIImage::CGDIImage() : m_bitmap({ 0 }) { }
 
-CGDIBitmap::CGDIBitmap(int width, int height, unsigned int colorBitCount, const void* pBits) : CGDIBitmap()
+CGDIImage::CGDIImage(int width, int height, unsigned int colorBitCount, const void* pBits) : CGDIImage()
 { Init(width, height, colorBitCount, pBits); }
 
-CGDIBitmap::CGDIBitmap(const IBitmap& bmp) : CGDIBitmap(bmp.GetWidth(), bmp.GetHeight(), bmp.GetColorBitCount(), bmp.GetBits()) { }
+CGDIImage::CGDIImage(const IImage& bmp) : CGDIImage(bmp.GetWidth(), bmp.GetHeight(), bmp.GetColorBitCount(), bmp.GetBits()) { }
 
-CGDIBitmap::CGDIBitmap(const BITMAP & bmp) : CGDIBitmap(bmp.bmWidth, bmp.bmHeight, bmp.bmBitsPixel, bmp.bmBits) { }
+CGDIImage::CGDIImage(const BITMAP & bmp) : CGDIImage(bmp.bmWidth, bmp.bmHeight, bmp.bmBitsPixel, bmp.bmBits) { }
 
-CGDIBitmap::~CGDIBitmap()
+CGDIImage::~CGDIImage()
 {
   if (m_bitmap.bmBits)
     delete[] m_bitmap.bmBits;
@@ -18,7 +18,7 @@ CGDIBitmap::~CGDIBitmap()
   m_bitmap = { 0 };
 }
 
-void CGDIBitmap::Init(int width, int height, unsigned int colorBitCount, const void* pBits)
+void CGDIImage::Init(int width, int height, unsigned int colorBitCount, const void* pBits)
 {
   if (m_bitmap.bmBits)
     delete[] m_bitmap.bmBits;
@@ -43,21 +43,21 @@ void CGDIBitmap::Init(int width, int height, unsigned int colorBitCount, const v
   }
 }
 
-bool CGDIBitmap::IsValid() const { return GetWidth() > 0 && GetHeight() > 0 && GetColorBitCount() > 0; }
+bool CGDIImage::IsValid() const { return GetWidth() > 0 && GetHeight() > 0 && GetColorBitCount() > 0; }
 
-int CGDIBitmap::GetWidth() const { return m_bitmap.bmWidth; }
+int CGDIImage::GetWidth() const { return m_bitmap.bmWidth; }
 
-int CGDIBitmap::GetHeight() const { return m_bitmap.bmHeight; }
+int CGDIImage::GetHeight() const { return m_bitmap.bmHeight; }
 
-unsigned int CGDIBitmap::GetColorBitCount() const { return m_bitmap.bmBitsPixel; }
+unsigned int CGDIImage::GetColorBitCount() const { return m_bitmap.bmBitsPixel; }
 
-WORD CGDIBitmap::GetPlanesCount() const { return m_bitmap.bmPlanes; }
+WORD CGDIImage::GetPlanesCount() const { return m_bitmap.bmPlanes; }
 
-LONG CGDIBitmap::GetWidthBytes() const { return m_bitmap.bmWidthBytes; }
+LONG CGDIImage::GetWidthBytes() const { return m_bitmap.bmWidthBytes; }
 
-void * CGDIBitmap::GetBits() { return m_bitmap.bmBits; }
+void * CGDIImage::GetBits() { return m_bitmap.bmBits; }
 
-void CGDIBitmap::Resize(int width, int height, int colorBitCount, const void* pData)
+void CGDIImage::Resize(int width, int height, int colorBitCount, const void* pData)
 {
   if (pData)
   {
@@ -68,7 +68,7 @@ void CGDIBitmap::Resize(int width, int height, int colorBitCount, const void* pD
   if (width == GetWidth() && height == GetHeight())
     return;
 
-  IBitmap* regionBitmap = CreateRegionCopy(0, 0, width, height);
+  IImage* regionBitmap = CreateRegionCopy(0, 0, width, height);
   const void* pOldData = regionBitmap->GetBits();
   if (regionBitmap)
     pOldData = regionBitmap->GetBits();
@@ -79,11 +79,11 @@ void CGDIBitmap::Resize(int width, int height, int colorBitCount, const void* pD
     regionBitmap->Destroy();
 }
 
-int CGDIBitmap::GetDataSize() const { return GetWidthBytes() * GetHeight(); }
+int CGDIImage::GetDataSize() const { return GetWidthBytes() * GetHeight(); }
 
-const void* CGDIBitmap::GetBits() const { return m_bitmap.bmBits; }
+const void* CGDIImage::GetBits() const { return m_bitmap.bmBits; }
 
-void CGDIBitmap::SetBits(const void* pArray)
+void CGDIImage::SetBits(const void* pArray)
 {
   if (!IsValid() || !pArray)
     return;
@@ -93,7 +93,7 @@ void CGDIBitmap::SetBits(const void* pArray)
   memcpy(m_bitmap.bmBits, pArray, byteArraySize);
 }
 
-IBitmap * CGDIBitmap::CreateRegionCopy(int x, int y, int width, int height) const
+IImage * CGDIImage::CreateRegionCopy(int x, int y, int width, int height) const
 {
   int pixelSize = GetColorBitCount() / 8;
 
@@ -121,14 +121,14 @@ IBitmap * CGDIBitmap::CreateRegionCopy(int x, int y, int width, int height) cons
     }
   }
 
-  IBitmap* result = new CGDIBitmap(width, height, GetColorBitCount(), newData);
+  IImage* result = new CGDIImage(width, height, GetColorBitCount(), newData);
   delete[] newData;
   return result;
 }
 
-void CGDIBitmap::Destroy() { delete this; }
+void CGDIImage::Destroy() { delete this; }
 
-void CGDIBitmap::HMirror()
+void CGDIImage::HMirror()
 {
   if (GetDataSize() == 0)
     return;

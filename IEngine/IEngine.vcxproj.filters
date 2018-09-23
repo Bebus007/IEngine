@@ -81,17 +81,14 @@
     <ClInclude Include="IFont.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="IBitmap.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IBitmapFont.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="IEngineObject.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="IBitmapFile.h">
       <Filter>OS</Filter>
+    </ClInclude>
+    <ClInclude Include="IImage.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
