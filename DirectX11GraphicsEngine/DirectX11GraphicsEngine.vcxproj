@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DirectX11GraphicsEngine.h" />
+    <ClInclude Include="DirectX11Image.h" />
     <ClInclude Include="DirectX11ShaderSet.h" />
     <ClInclude Include="DirectX11RenderSystem.h" />
     <ClInclude Include="DirectX11Graphics2D.h" />
@@ -172,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX11GraphicsEngine.cpp" />
+    <ClCompile Include="DirectX11Image.cpp" />
     <ClCompile Include="DirectX11ShaderSet.cpp" />
     <ClCompile Include="DirectX11RenderSystem.cpp" />
     <ClCompile Include="DirectX11Graphics2D.cpp" />

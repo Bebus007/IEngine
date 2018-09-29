@@ -33,6 +33,14 @@ public:
   ID3D11Buffer* CreateVertexBuffer(unsigned int bufferSize, void* bufferData);
   void DrawVertexBuffer(ID3D11Buffer* pBuff, UINT vertexSize, UINT vertexCount, D3D11_PRIMITIVE_TOPOLOGY topologyType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+  ID3D11Texture2D* CreateTexture(int width, int height, const DXGI_FORMAT& fmt, const void * data = nullptr);
+  static unsigned int GetColorBitCount(const DXGI_FORMAT&);
+  void* CreateTextureDataCopy(ID3D11Texture2D*);
+  void CopyToTextureData(ID3D11Texture2D*, const void*);
+
+  ID3D11Texture2D* GetBackBufferCopyForReading();
+  ID3D11Texture2D* CreateTextureCopyForReading(ID3D11Texture2D*);
+
   void ApplyShaderSet(CDirectX11ShaderSet*);
 private:
 

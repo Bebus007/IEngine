@@ -18,7 +18,7 @@ CGDIImage::~CGDIImage()
   m_bitmap = { 0 };
 }
 
-void CGDIImage::Init(int width, int height, unsigned int colorBitCount, const void* pBits)
+void CGDIImage::Init(int width, int height, int colorBitCount, const void* pBits)
 {
   if (m_bitmap.bmBits)
     delete[] m_bitmap.bmBits;
@@ -53,7 +53,7 @@ unsigned int CGDIImage::GetColorBitCount() const { return m_bitmap.bmBitsPixel; 
 
 WORD CGDIImage::GetPlanesCount() const { return m_bitmap.bmPlanes; }
 
-LONG CGDIImage::GetWidthBytes() const { return m_bitmap.bmWidthBytes; }
+LONG CGDIImage::GetWidthBytesCount() const { return m_bitmap.bmWidthBytes; }
 
 void * CGDIImage::GetBits() { return m_bitmap.bmBits; }
 
@@ -79,7 +79,7 @@ void CGDIImage::Resize(int width, int height, int colorBitCount, const void* pDa
     regionBitmap->Destroy();
 }
 
-int CGDIImage::GetDataSize() const { return GetWidthBytes() * GetHeight(); }
+int CGDIImage::GetDataSize() const { return GetWidthBytesCount() * GetHeight(); }
 
 const void* CGDIImage::GetBits() const { return m_bitmap.bmBits; }
 
@@ -142,12 +142,12 @@ void CGDIImage::HMirror()
 
   for (int i = 1; i < GetHeight(); i++)
   {
-    destRows[i] = destRows[i - 1] + GetWidthBytes();
-    srcRows[i] = srcRows[i - 1] + GetWidthBytes();
+    destRows[i] = destRows[i - 1] + GetWidthBytesCount();
+    srcRows[i] = srcRows[i - 1] + GetWidthBytesCount();
   }
 
   for (int i = 0; i < GetHeight(); i++)
-    memcpy(destRows[i], srcRows[GetHeight() - i - 1], GetWidthBytes());
+    memcpy(destRows[i], srcRows[GetHeight() - i - 1], GetWidthBytesCount());
 
   Init(GetWidth(), GetHeight(), GetColorBitCount(), mirroredData);
 

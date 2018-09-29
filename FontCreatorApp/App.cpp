@@ -137,7 +137,7 @@ void CApp::DrawImage(const char * pFilename)
   if (pBitmapFile)
   {
     IImage* pBitmap = m_pGraphics2D->CreateEmptyImage();
-    pBitmap->Resize(pBitmapFile->GetBitmapWidth(), pBitmapFile->GetBitmapHeight(), pBitmapFile->GetBitmapColorBitCount(), pBitmapFile->GetBitmapData());
+    pBitmap->Init(pBitmapFile->GetBitmapWidth(), pBitmapFile->GetBitmapHeight(), pBitmapFile->GetBitmapColorBitCount(), pBitmapFile->GetBitmapData());
     pBitmap->HMirror();
     m_pGraphics2D->DrawImage({ 0, 0 }, pBitmap);
     pBitmap->Destroy();

@@ -11,7 +11,7 @@ public:
   CGDIImage(const BITMAP&);
   ~CGDIImage();
 
-  void Init(int width, int height, unsigned int colorBitCount, const void* pBits = nullptr);
+  virtual void Init(int width, int height, int colorBitCount, const void* pBits = nullptr) override;
 
   bool IsValid() const;
 
@@ -19,10 +19,10 @@ public:
   virtual int GetHeight() const override;
   virtual unsigned int GetColorBitCount() const override;
   WORD GetPlanesCount() const;
-  LONG GetWidthBytes() const;
+  LONG GetWidthBytesCount() const;
   void* GetBits();
 
-  virtual void Resize(int width, int height, int colorBitCount, const void* data = nullptr) override;
+  virtual void Resize(int width, int height, int colorBitCount, const void* data = nullptr);
   virtual void HMirror() override;
 
   virtual int GetDataSize() const override;

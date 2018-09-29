@@ -310,6 +310,107 @@ void CDirectX11RenderSystem::DrawVertexBuffer(ID3D11Buffer * pBuff, UINT vertexS
   m_pImmediateContext->Draw(vertexCount, 0);
 }
 
+ID3D11Texture2D * CDirectX11RenderSystem::CreateTexture(int width, int height, const DXGI_FORMAT & fmt, const void * data)
+{
+  D3D11_SUBRESOURCE_DATA initData = { data, GetColorBitCount(fmt) * width * height / 8, 0 };
+
+  D3D11_TEXTURE2D_DESC desc = { 0 };
+  desc.Width = width;
+  desc.Height = height;
+  desc.MipLevels = desc.ArraySize = 1;
+  desc.Format = fmt;
+  desc.SampleDesc.Count = 1;
+  desc.Usage = D3D11_USAGE_DYNAMIC;
+  desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+  desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+
+  ID3D11Texture2D* result = nullptr;
+
+  HRESULT hr = m_pd3dDevice->CreateTexture2D(&desc, &initData, &result);
+
+  return result;
+}
+
+unsigned int CDirectX11RenderSystem::GetColorBitCount(const DXGI_FORMAT & fmt)
+{
+  switch (fmt)
+  {
+  case DXGI_FORMAT_R32G32B32A32_TYPELESS:
+  case DXGI_FORMAT_R32G32B32A32_FLOAT:
+  case DXGI_FORMAT_R32G32B32A32_UINT:
+  case DXGI_FORMAT_R32G32B32A32_SINT:
+    return 128;
+  case DXGI_FORMAT_R32G32B32_TYPELESS:
+  case DXGI_FORMAT_R32G32B32_FLOAT:
+  case DXGI_FORMAT_R32G32B32_UINT:
+  case DXGI_FORMAT_R32G32B32_SINT:
+    return 96;
+  case DXGI_FORMAT_R16G16B16A16_TYPELESS:
+  case DXGI_FORMAT_R16G16B16A16_FLOAT:
+  case DXGI_FORMAT_R16G16B16A16_UNORM:
+  case DXGI_FORMAT_R16G16B16A16_UINT:
+  case DXGI_FORMAT_R16G16B16A16_SNORM:
+  case DXGI_FORMAT_R16G16B16A16_SINT:
+    return 64;
+  case DXGI_FORMAT_R10G10B10A2_TYPELESS:
+  case DXGI_FORMAT_R10G10B10A2_UNORM:
+  case DXGI_FORMAT_R10G10B10A2_UINT:
+  case DXGI_FORMAT_R11G11B10_FLOAT:
+  case DXGI_FORMAT_R8G8B8A8_TYPELESS:
+  case DXGI_FORMAT_R8G8B8A8_UNORM:
+  case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+  case DXGI_FORMAT_R8G8B8A8_UINT:
+  case DXGI_FORMAT_R8G8B8A8_SNORM:
+  case DXGI_FORMAT_R8G8B8A8_SINT:
+    return 32;
+  default:
+    return 0;
+  }
+}
+
+void * CDirectX11RenderSystem::CreateTextureDataCopy(ID3D11Texture2D* pResource)
+{
+  if (!pResource)
+    return nullptr;
+  
+  D3D11_TEXTURE2D_DESC desc;
+  pResource->GetDesc(&desc);
+  int dataSize = desc.Width * desc.Height * GetColorBitCount(desc.Format) / 8;
+  if (dataSize == 0)
+    return nullptr;
+
+  void* result = new unsigned char[dataSize];
+
+  HRESULT hr = S_OK;
+
+  D3D11_MAPPED_SUBRESOURCE subresource;
+  hr = m_pImmediateContext->Map(pResource, 0, D3D11_MAP_READ, 0, &subresource);
+
+  memcpy(result, subresource.pData, dataSize);
+
+  m_pImmediateContext->Unmap(pResource, 0);
+
+  return result;
+}
+
+void CDirectX11RenderSystem::CopyToTextureData(ID3D11Texture2D * pTexture, const void * pData)
+{
+  D3D11_TEXTURE2D_DESC desc;
+  pTexture->GetDesc(&desc);
+  int dataSize = desc.Width * desc.Height * GetColorBitCount(desc.Format);
+  if (dataSize == 0)
+    return;
+
+  void* result = new unsigned char[dataSize];
+
+  D3D11_MAPPED_SUBRESOURCE subresource;
+  m_pImmediateContext->Map(pTexture, 0, D3D11_MAP_READ, D3D11_MAP_FLAG_DO_NOT_WAIT, &subresource);
+
+  memcpy(subresource.pData, result, dataSize);
+
+  m_pImmediateContext->Unmap(pTexture, 0);
+}
+
 void CDirectX11RenderSystem::ApplyShaderSet(CDirectX11ShaderSet * pShaderSet)
 {
   ID3D11Buffer* pBuffer = pShaderSet->GetConstantBuffer();
@@ -319,6 +420,48 @@ void CDirectX11RenderSystem::ApplyShaderSet(CDirectX11ShaderSet * pShaderSet)
   m_pImmediateContext->VSSetConstantBuffers(0, 1, &pBuffer);
   m_pImmediateContext->PSSetShader(pShaderSet->GetPixelShader(), NULL, 0);
   m_pImmediateContext->PSSetConstantBuffers(0, 1, &pBuffer);
+}
+
+ID3D11Texture2D * CDirectX11RenderSystem::GetBackBufferCopyForReading()
+{
+  HRESULT hr = S_OK;
+  ID3D11Texture2D* result = nullptr;
+
+  ID3D11Texture2D* pBackBuffer = nullptr;
+  hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+  if (FAILED(hr) || !pBackBuffer)
+    return nullptr;
+
+  result = CreateTextureCopyForReading(pBackBuffer);
+  pBackBuffer->Release();
+
+  return result;
+}
+
+ID3D11Texture2D * CDirectX11RenderSystem::CreateTextureCopyForReading(ID3D11Texture2D * pSrc)
+{
+  HRESULT hr = S_OK;
+  ID3D11Texture2D* result = nullptr;
+
+  D3D11_TEXTURE2D_DESC desc = { 0 };
+  pSrc->GetDesc(&desc);
+
+  desc.Usage = D3D11_USAGE_STAGING;
+  desc.BindFlags = 0;
+  desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+  desc.MiscFlags = 0;
+
+  hr = m_pd3dDevice->CreateTexture2D(&desc, nullptr, &result);
+  if (!result)
+    return nullptr;
+  if (FAILED(hr))
+  {
+    result->Release();
+    return nullptr;
+  }
+
+  m_pImmediateContext->CopyResource(result, pSrc);
+  return result;
 }
 
 ID3DBlob * CDirectX11RenderSystem::CompileShader(const std::string& shaderText, const std::string& entrypoint, const std::string & versionString)

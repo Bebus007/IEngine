@@ -4,6 +4,8 @@
 #include "DirectX11ShaderSet.h"
 #include "DirectX11RenderSystem.h"
 
+#include "DirectX11Image.h"
+
 #include <string>
 
 CDirectX11Graphics2D::CDirectX11Graphics2D(CDirectX11RenderSystem * pRenderSystem) : m_pRenderSystem(pRenderSystem), m_pTestShaderSet(nullptr)
@@ -75,12 +77,20 @@ IGraphics2D::Size_t CDirectX11Graphics2D::GetTextSize(IFont * pFont, const char 
 
 IImage * CDirectX11Graphics2D::CaptureScreen()
 {
-  return nullptr;
+  ID3D11Texture2D* pBackBufferCopy = m_pRenderSystem->GetBackBufferCopyForReading();
+  if (!pBackBufferCopy)
+    return nullptr;
+
+  IImage* result = new CDirectX11Image(pBackBufferCopy, m_pRenderSystem);
+  pBackBufferCopy->Release();
+  pBackBufferCopy = nullptr;
+
+  return result;
 }
 
 IImage * CDirectX11Graphics2D::CreateEmptyImage()
 {
-  return nullptr;
+  return new CDirectX11Image(m_pRenderSystem);
 }
 
 void CDirectX11Graphics2D::InitTestShaderSet()
