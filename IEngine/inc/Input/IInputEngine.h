@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IEngineObject.h"
+#include "..\IEngineObject.h"
 
 class IKeyboard;
 class IMouse;

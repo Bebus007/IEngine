@@ -33,62 +33,62 @@
     <ClInclude Include="targetver.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="IEngine.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="IOperatingSystemEngine.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IWindow.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IWindowEx.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IInputEngine.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="IKeyboard.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="IMouse.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphicsEngine.h">
+    <ClInclude Include="inc\Graphics\IFont.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="ISoundEngine.h">
+    <ClInclude Include="inc\Graphics\IGraphics2D.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Graphics\IGraphicsEngine.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Graphics\IImage.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Graphics\IPixelShader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Graphics\IVertexShader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Input\IInputEngine.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Input\IKeyboard.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Input\IMouse.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\OS\IBitmapFile.h">
+      <Filter>OS</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\OS\IFile.h">
+      <Filter>OS</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\OS\IOperatingSystemEngine.h">
+      <Filter>OS</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\OS\IWAVFile.h">
+      <Filter>OS</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\OS\IWindow.h">
+      <Filter>OS</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\OS\IWindowEx.h">
+      <Filter>OS</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Sound\ISound.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="ISound.h">
+    <ClInclude Include="inc\Sound\ISoundEngine.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="IFile.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IWAVFile.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphics2D.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IPixelShader.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IVertexShader.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IFont.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IEngineObject.h">
+    <ClInclude Include="inc\IEngine.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="IBitmapFile.h">
-      <Filter>OS</Filter>
-    </ClInclude>
-    <ClInclude Include="IImage.h">
-      <Filter>Graphics</Filter>
+    <ClInclude Include="inc\IEngineObject.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

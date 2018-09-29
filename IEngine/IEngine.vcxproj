@@ -90,6 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;IENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>inc\;inc\OS\;inc\Graphics\;inc\Input\;inc\Sound\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -104,6 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;IENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>inc\;inc\OS\;inc\Graphics\;inc\Input\;inc\Sound\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -120,6 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;IENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>inc\;inc\OS\;inc\Graphics\;inc\Input\;inc\Sound\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,6 +141,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;IENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>inc\;inc\OS\;inc\Graphics\;inc\Input\;inc\Sound\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,25 +151,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="IImage.h" />
-    <ClInclude Include="IBitmapFile.h" />
-    <ClInclude Include="IEngineObject.h" />
-    <ClInclude Include="IFont.h" />
-    <ClInclude Include="IGraphics2D.h" />
-    <ClInclude Include="IEngine.h" />
-    <ClInclude Include="IFile.h" />
-    <ClInclude Include="IGraphicsEngine.h" />
-    <ClInclude Include="IInputEngine.h" />
-    <ClInclude Include="IKeyboard.h" />
-    <ClInclude Include="IMouse.h" />
-    <ClInclude Include="IOperatingSystemEngine.h" />
-    <ClInclude Include="ISound.h" />
-    <ClInclude Include="ISoundEngine.h" />
-    <ClInclude Include="IVertexShader.h" />
-    <ClInclude Include="IWAVFile.h" />
-    <ClInclude Include="IWindow.h" />
-    <ClInclude Include="IWindowEx.h" />
-    <ClInclude Include="IPixelShader.h" />
+    <ClInclude Include="inc\Graphics\IFont.h" />
+    <ClInclude Include="inc\Graphics\IGraphics2D.h" />
+    <ClInclude Include="inc\Graphics\IGraphicsEngine.h" />
+    <ClInclude Include="inc\Graphics\IImage.h" />
+    <ClInclude Include="inc\Graphics\IPixelShader.h" />
+    <ClInclude Include="inc\Graphics\IVertexShader.h" />
+    <ClInclude Include="inc\IEngine.h" />
+    <ClInclude Include="inc\IEngineObject.h" />
+    <ClInclude Include="inc\Input\IInputEngine.h" />
+    <ClInclude Include="inc\Input\IKeyboard.h" />
+    <ClInclude Include="inc\Input\IMouse.h" />
+    <ClInclude Include="inc\OS\IBitmapFile.h" />
+    <ClInclude Include="inc\OS\IFile.h" />
+    <ClInclude Include="inc\OS\IOperatingSystemEngine.h" />
+    <ClInclude Include="inc\OS\IWAVFile.h" />
+    <ClInclude Include="inc\OS\IWindow.h" />
+    <ClInclude Include="inc\OS\IWindowEx.h" />
+    <ClInclude Include="inc\Sound\ISound.h" />
+    <ClInclude Include="inc\Sound\ISoundEngine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

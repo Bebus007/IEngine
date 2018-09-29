@@ -3,16 +3,21 @@
 using namespace std;
 
 #include "IEngine.h"
-#include "IOperatingSystemEngine.h"
-#include "IWindow.h"
-#include "IInputEngine.h"
-#include "IKeyboard.h"
-#include "IGraphicsEngine.h"
-#include "IGraphics2D.h"
-#include "ISoundEngine.h"
-#include "ISound.h"
-#include "IImage.h"
-#include "IBitmapFile.h"
+
+#include "OS/IOperatingSystemEngine.h"
+#include "OS/IWindow.h"
+
+#include "Input/IInputEngine.h"
+#include "Input/IKeyboard.h"
+
+#include "Graphics/IGraphicsEngine.h"
+#include "Graphics/IGraphics2D.h"
+#include "Graphics/IImage.h"
+
+#include "Sound/ISoundEngine.h"
+#include "Sound/ISound.h"
+
+#include "OS/IBitmapFile.h"
 
 int main()
 {
