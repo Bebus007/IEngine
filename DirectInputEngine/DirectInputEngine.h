@@ -8,6 +8,7 @@ class IWindowEx;
 
 class CDirectInputKeyboard;
 class CDirectInputMouse;
+class CDirectInputGamepad;
 
 class CDirectInputEngine : public IInputEngine
 {
@@ -26,6 +27,7 @@ private:
 
   CDirectInputKeyboard* m_pKeyboard;
   CDirectInputMouse* m_pMouse;
+  CDirectInputGamepad* m_pGamepad;
 
 private:
   LPDIRECTINPUT8 m_pInterface;

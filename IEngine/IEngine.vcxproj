@@ -159,6 +159,7 @@
     <ClInclude Include="inc\Graphics\IVertexShader.h" />
     <ClInclude Include="inc\IEngine.h" />
     <ClInclude Include="inc\IEngineObject.h" />
+    <ClInclude Include="inc\Input\IGamepad.h" />
     <ClInclude Include="inc\Input\IInputEngine.h" />
     <ClInclude Include="inc\Input\IKeyboard.h" />
     <ClInclude Include="inc\Input\IMouse.h" />

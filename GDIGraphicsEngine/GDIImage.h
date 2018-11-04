@@ -36,4 +36,7 @@ public:
 private:
 
   BITMAP m_bitmap;
+
+  // Унаследовано через IImage
+  virtual ImageFormat_e GetFormat() const override { return ImageFormat_e::IF_UNKNOWN; }
 };

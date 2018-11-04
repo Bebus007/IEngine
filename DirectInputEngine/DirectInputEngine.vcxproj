@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="DirectInputDevice.h" />
     <ClInclude Include="DirectInputEngine.h" />
+    <ClInclude Include="DirectInputGamepad.h" />
     <ClInclude Include="DirectInputKeyboard.h" />
     <ClInclude Include="DirectInputMouse.h" />
     <ClInclude Include="stdafx.h" />
@@ -185,7 +186,9 @@
   <ItemGroup>
     <ClCompile Include="DirectInputDevice.cpp" />
     <ClCompile Include="DirectInputEngine.cpp" />
+    <ClCompile Include="DirectInputGamepad.cpp" />
     <ClCompile Include="DirectInputKeyboard.cpp" />
+    <ClCompile Include="DirectInputMouse.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -9,6 +9,8 @@ using namespace std;
 
 #include "Input/IInputEngine.h"
 #include "Input/IKeyboard.h"
+#include "Input/IMouse.h"
+#include "Input/IGamepad.h"
 
 #include "Graphics/IGraphicsEngine.h"
 #include "Graphics/IGraphics2D.h"
@@ -32,6 +34,8 @@ int main()
 
   auto pKeyboard = pInputEngine->GetKeyboard();
 
+  auto pGamepad = pInputEngine->GetGamepad();
+
   auto pGraphicsEngine = IEngine::CreateGraphicsEngine(IEngine::GraphicsEngineType_e::GET_DIRECT_X_11, pGameWindow);
 
   pGraphicsEngine->Init();
@@ -49,26 +53,30 @@ int main()
     if (pKeyboard->IsKeyDown(IKeyboard::KEY_ESCAPE))
       break;
 
+    if (pGamepad->IsButtonDown(0))
+      continue;
+
     pGraphicsEngine->ClearScreen();
 
     p2DInterface->DrawTriangle(vertices[0], vertices[1], vertices[2]);
 
     IImage* pScreen = p2DInterface->CaptureScreen();
+    if (pScreen)
+    {
+      IFile* pFile = pOSEngine->OpenFile("D:\\image.bmp");
+      if (!pFile)
+        return 0;
 
-    IFile* pFile = pOSEngine->OpenFile("D:\\image.bmp");
-    if (!pFile)
-      return 0;
+      IBitmapFile* pBitmapFile = dynamic_cast<IBitmapFile*>(pFile);
+      pBitmapFile->Clear();
+      pBitmapFile->SetBitmapWidth(pScreen->GetWidth());
+      pBitmapFile->SetBitmapHeight(pScreen->GetHeight());
+      pBitmapFile->SetBitmapColorBitCount(pScreen->GetColorBitCount());
+      pBitmapFile->SetBitmapPlanesCount(1);
+      pBitmapFile->SetBitmapData(pScreen->GetBits());
 
-    IBitmapFile* pBitmapFile = dynamic_cast<IBitmapFile*>(pFile);
-    pBitmapFile->Clear();
-    pBitmapFile->SetBitmapWidth(pScreen->GetWidth());
-    pBitmapFile->SetBitmapHeight(pScreen->GetHeight());
-    pBitmapFile->SetBitmapColorBitCount(pScreen->GetColorBitCount());
-    pBitmapFile->SetBitmapPlanesCount(1);
-    pBitmapFile->SetBitmapData(pScreen->GetBits());
-
-    pFile->Destroy();
-
+      pFile->Destroy();
+    }
     pGraphicsEngine->Swap();
   }
 
