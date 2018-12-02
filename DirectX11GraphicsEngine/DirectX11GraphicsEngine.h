@@ -6,6 +6,7 @@
 
 class CDirectX11RenderSystem;
 class CDirectX11Graphics2D;
+class CDirectX11ShaderSet;
 
 class IGraphics2D;
 
@@ -24,6 +25,8 @@ public:
 
   virtual void Destroy() override;
 
+  virtual void DrawTriangle(Vertex_t a, Vertex_t b, Vertex_t c) override;
+
   virtual IGraphics2D* Get2DInterface() override;
 
   virtual void HandleWindowResize(int newW, int newH) override;
@@ -38,6 +41,8 @@ private:
   CDirectX11RenderSystem* m_pRenderSystem;
 
   CDirectX11Graphics2D   *m_p2DInterface;
+
+  CDirectX11ShaderSet* m_pTestShaderSet;
 
   IWindowEx* m_pWindow;
 };

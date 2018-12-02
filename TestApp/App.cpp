@@ -172,13 +172,13 @@ void CApp::RenderScene()
 
   pGraphicsEngine->ClearScreen();
 
-  static const IGraphics2D::Vertex_t vertices[3] = {
-    {-200.0f, -240.0f},
-    {0.0f, 240.0f},
-    {200.0f, -240.0f}
+  static const IGraphicsEngine::Vertex_t vertices[3] = {
+    {-200.0f / 320.0f, -240.0f / 240.0f, 0.5f, 1.0f},
+    {0.0f / 320.0f, 240.0f / 240.0f, 0.5f, 1.0f},
+    {200.0f / 320.0f, -240.0f / 240.0f, 0.5f, 1.0f}
   };
 
-  p2DInterface->DrawTriangle(vertices[0], vertices[1], vertices[2]);
+  pGraphicsEngine->DrawTriangle(vertices[0], vertices[1], vertices[2]);
 
   pGraphicsEngine->Swap();
 }
